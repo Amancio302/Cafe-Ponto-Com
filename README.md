@@ -2,7 +2,7 @@
 Trabalho final da disciplina de Engenharia de Software 2020/1 - UFLA Universidade Federal de Lavras
 ### Desenvolvido por
 JVM Dev
-Jean Lopes Roberto
+Jean Roberto Lopes Cruz
 Victor Gustavo Cabral Rodrigues
 Matheus Amâncio Ferreira
 ## Descrição
