@@ -23,3 +23,33 @@ Os tipos de usuário serão: Atendentes e Gerentes.
 	phpMyAdmin - Versão: 5.0.2
 ### Servidor WEB
 	Apache2 - Versão: 2.4.43
+## Padrões de Uso
+### Branches e Issues
+    Haverão 3 branches padrão no projeto: master, development e review
+#### Master
+    Última release e versão mais estável do sistema, possuindo apenas funcionalidades testas exaustivamente
+#### Development
+    Branch responsável por alocar as novas funcionalidade do sistema, sendo geralmente a versão mais recente do sistema, ainda sem muitos testes em larga escala
+#### Review
+    Branch responsável por testes no sistema, que após aprovação, deverá ser mesclada na master, gerando uma nova relase do projeto
+#### Criação de Issues
+    Para cada nova funcionalidade do sistema, uma issue deverá ser criada, sendo esta responsável pela descrição do problema e possuindo uma branch relacionada
+#### Criação de Branches
+    Para cada nova issue, uma branch deverá ser criada, sendo o nome da branch igual ao número e nome da issue. Essas branches deverão ser criadas a partir da branch "development"
+### Hierarquia de diretórios
+#### Documentação
+    Toda a documentação do projeto estará nas pastas "Padrões de Projeto" e "Requisitos"
+#### Código
+    Todo o código estará contido na pasta "src"
+##### Assets
+    Assets do projeto
+#####  Models
+    Modelos de classes do banco de dados
+##### Persistance
+    Classes que se relacionam com o Banco de Dados
+##### Controller
+    Controladores do sistema, agindo como intermediadores entre as views e o resto do sistema
+##### Views
+    Todos os arquivos de visualização
+### Padrão de codificação
+    Será adotado o padrão SOLID
