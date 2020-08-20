@@ -5,7 +5,7 @@ class Pedido extends Database_Connect{
 
     public function createPedido($idVenda, $idProduto, $qtdProduto) {
         $connection = $this->connect();
-        $data = "($idVenda, \"$idProduto\", \"$qtdProduto\")";
+        $data = "(\"$idVenda\", \"$idProduto\", \"$qtdProduto\")";
         $sql = "INSERT INTO Pedido (idVenda, idProduto, qtdProduto) VALUES $data";
         mysqli_query($connection, $sql);
         $idPedido = mysqli_insert_id($connection);
