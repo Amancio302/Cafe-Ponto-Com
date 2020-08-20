@@ -1,6 +1,5 @@
 <?php
-include_once("Database_Connect.php")
-include_once("@/models/Pedido.php")
+include_once("Database_Connect.php, @/models/Pedido.php");
 
 class Pedido extends Database_Connect{
 
