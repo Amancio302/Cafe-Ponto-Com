@@ -32,7 +32,6 @@ class Produto extends Database_Connect{
 
     public function updateProduto($idProduto, $ProdutoData) {
         $connection = $this->connect();
-        "(nome = \"$nome\", descricao = \"$descricao\", preco = \"$preco\", quantidade = \"$quantidade\", addedBy = \"$addedBy\")";
         $data = "(nome = \"$nome\", descricao = \"$descricao\", preco = \"$preco\", quantidade = \"$quantidade\", addedBy = \"$addedBy\")";
         $sql = "UPDATE Produto SET $data WHERE idProduto = $ProdutoData->idProduto";
         mysqli_query($connection, $sql);
