@@ -40,7 +40,7 @@ class Pedido extends Database_Connect{
 
     public function updatePedido($idPedido, $pedidoData) {
         $connection = $this->connect();
-        $data = "idPedido = \"$pedidoData->idPedido\", idVenda = \"$pedidoData->idVenda\", idProduto =  \"$pedidoData->idProduto\", qtd_produto = \"$pedidoData->qtd_produto\"";
+        $data = "(idPedido = \"$pedidoData->idPedido\", idVenda = \"$pedidoData->idVenda\", idProduto =  \"$pedidoData->idProduto\", qtd_produto = \"$pedidoData->qtd_produto\")";
         $sql = "UPDATE Pedido SET $data WHERE idPedido = $pedidoData->idPedido";
         mysqli_query($connection, $sql);
         mysqli_close($connection);
