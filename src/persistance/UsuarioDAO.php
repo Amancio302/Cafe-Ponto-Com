@@ -1,48 +1,60 @@
 <?php
-include_once("Database_Connect.php, @/models/Usuario.php");
+require_once("Database_Connect.php");
+require_once("../models/Usuario.php");
 
-class Usuario extends Database_Connect{
+class UsuarioDAO extends Database_Connect{
 
-    public function createUsuario($cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao) {
+    public function createUsuario($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao) {
         $connection = $this->connect();
-        $data = "(\"$cpf\", \"$nome\", \"$telefone\", \"$endereco\", \"$email\", \"$admin\", \"$qtd_vendas\", \"$valor_comissao\")";
-        $sql = "INSERT INTO Usuario (cpf, nome, telefone, endereco, email, admin, qtd_vendas, valor_comissao) VALUES $data";
-        mysqli_query($connection, $sql);
+        $data = "(\"$CPF\", \"$Nome\", \"$Telefone\", \"$Endereco\", \"$Email\", $Admin, $Qtd_Vendas, $Valor_Comissao)";
+        $sql = "INSERT INTO Usuario (CPF, Nome, Telefone, Endereco, Email, Admin, Qtd_Vendas, Valor_Comissao) VALUES $data";
+        $connection->query($sql);
         $idUsuario = mysqli_insert_id($connection);
         mysqli_close($connection);
-        return new Usuario($idUsuario, $cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao);
+        return new Usuario($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao);
     }
 
     public function getOneUsuario($idUsuario) {
         $connection = $this->connect();
         $sql = "SELECT * FROM Usuario WHERE idUsuario = $idUsuario";
-        $result = mysqli_fetch_all(mysqli_query($connection, $sql), MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result)[0];
     }
 
     public function getAllUsuarios() {
         $connection = $this->connect();
         $sql = "SELECT * FROM Usuario";
-        $query = mysqli_query($connection, $sql);
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result);
     }
 
     public function updateUsuario($idUsuario, $UsuarioData) {
         $connection = $this->connect();
-        $data = "(cpf = \"$cpf\", nome = \"$nome\", telefone = \"$telefone\", endereco = \"$endereco\", email = \"$email\", admin = \"$admin\", qtd_vendas = \"$qtd_vendas\", valor_comissao = \"$valor_comissao\")";
-        $sql = "UPDATE Usuario SET $data WHERE idUsuario = $UsuarioData->idUsuario";
-        mysqli_query($connection, $sql);
+        $data = "CPF = \"$UsuarioData->CPF\", Nome = \"$UsuarioData->Nome\", Telefone = \"$UsuarioData->Telefone\", Endereco = \"$UsuarioData->Endereco\", Email = \"$UsuarioData->Email\", Admin = $UsuarioData->Admin, Qtd_Vendas = $UsuarioData->Qtd_Vendas, Valor_Comissao = $UsuarioData->Valor_Comissao";
+        $sql = "UPDATE Usuario SET $data WHERE idUsuario = $idUsuario";
+        $res = mysqli_query($connection, $sql);
         mysqli_close($connection);
+        return $this->getOneUsuario($idUsuario);
     }
 
     public function deleteUsuario($idUsuario) {
+        $deleted = $this->getOneUsuario($idUsuario);
         $connection = $this->connect();
         $sql = "DELETE FROM Usuario WHERE idUsuario = $idUsuario";
         mysqli_query($connection, $sql);
         mysqli_close($connection);
+        return $deleted;
+    }
+
+    private function fetchData($dataArray) {
+        $res = array();
+        foreach($dataArray as $usuario) {
+            $data = new Usuario($usuario[idUsuario], $usuario[CPF], $usuario[Nome], $usuario[Telefone], $usuario[Endereco], $usuario[Email], $usuario[Admin], $usuario[Qtd_Vendas], $usuario[Valor_Comissao]);
+            array_push($res, $data);
+        }
+        return $res;
     }
 }
 ?>
