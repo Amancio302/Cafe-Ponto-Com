@@ -20,7 +20,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
 #### Estilização
     CSS - Versão: 3.0
 ### Banco de Dados
-	phpMyAdmin - Versão: 5.0.2
+	MySQL - Versão: 8.0.20
 ### Servidor WEB
 	Apache2 - Versão: 2.4.43
 ## Padrões de Uso
