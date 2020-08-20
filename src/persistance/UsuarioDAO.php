@@ -1,46 +1,46 @@
 <?php
-include_once("Database_Connect.php, @/models/Produto.php");
+include_once("Database_Connect.php, @/models/Usuario.php");
 
-class Produto extends Database_Connect{
+class Usuario extends Database_Connect{
 
-    public function createProduto($cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao) {
+    public function createUsuario($cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao) {
         $connection = $this->connect();
         $data = "(\"$cpf\", \"$nome\", \"$telefone\", \"$endereco\", \"$email\", \"$admin\", \"$qtd_vendas\", \"$valor_comissao\")";
-        $sql = "INSERT INTO Produto (cpf, nome, telefone, endereco, email, admin, qtd_vendas, valor_comissao) VALUES $data";
+        $sql = "INSERT INTO Usuario (cpf, nome, telefone, endereco, email, admin, qtd_vendas, valor_comissao) VALUES $data";
         mysqli_query($connection, $sql);
-        $idProduto = mysqli_insert_id($connection);
+        $idUsuario = mysqli_insert_id($connection);
         mysqli_close($connection);
-        return new Produto($idProduto, $cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao);
+        return new Usuario($idUsuario, $cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao);
     }
 
-    public function getOneProduto($idProduto) {
+    public function getOneUsuario($idUsuario) {
         $connection = $this->connect();
-        $sql = "SELECT * FROM Produto WHERE idProduto = $idProduto";
+        $sql = "SELECT * FROM Usuario WHERE idUsuario = $idUsuario";
         $result = mysqli_fetch_all(mysqli_query($connection, $sql), MYSQLI_ASSOC);
         mysqli_close($connection);
         return $result;
     }
 
-    public function getAllProdutos() {
+    public function getAllUsuarios() {
         $connection = $this->connect();
-        $sql = "SELECT * FROM Produto";
+        $sql = "SELECT * FROM Usuario";
         $query = mysqli_query($connection, $sql);
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
         mysqli_close($connection);
         return $result;
     }
 
-    public function updateProduto($idProduto, $ProdutoData) {
+    public function updateUsuario($idUsuario, $UsuarioData) {
         $connection = $this->connect();
         $data = "(cpf = \"$cpf\", nome = \"$nome\", telefone = \"$telefone\", endereco = \"$endereco\", email = \"$email\", admin = \"$admin\", qtd_vendas = \"$qtd_vendas\", valor_comissao = \"$valor_comissao\")";
-        $sql = "UPDATE Produto SET $data WHERE idProduto = $ProdutoData->idProduto";
+        $sql = "UPDATE Usuario SET $data WHERE idUsuario = $UsuarioData->idUsuario";
         mysqli_query($connection, $sql);
         mysqli_close($connection);
     }
 
-    public function deleteProduto($idProduto) {
+    public function deleteUsuario($idUsuario) {
         $connection = $this->connect();
-        $sql = "DELETE FROM Produto WHERE idProduto = $idProduto";
+        $sql = "DELETE FROM Usuario WHERE idUsuario = $idUsuario";
         mysqli_query($connection, $sql);
         mysqli_close($connection);
     }
