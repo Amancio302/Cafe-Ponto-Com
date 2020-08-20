@@ -1,48 +1,60 @@
 <?php
-include_once("Database_Connect.php, @/models/Produto.php");
+require_once("Database_Connect.php");
+require_once("../models/Usuario.php");
 
-class Produto extends Database_Connect{
+class UsuarioDAO extends Database_Connect{
 
-    public function createProduto($cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao) {
+    public function createUsuario($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao) {
         $connection = $this->connect();
-        $data = "(\"$cpf\", \"$nome\", \"$telefone\", \"$endereco\", \"$email\", \"$admin\", \"$qtd_vendas\", \"$valor_comissao\")";
-        $sql = "INSERT INTO Produto (cpf, nome, telefone, endereco, email, admin, qtd_vendas, valor_comissao) VALUES $data";
+        $data = "(\"$CPF\", \"$Nome\", \"$Telefone\", \"$Endereco\", \"$Email\", $Admin, $Qtd_Vendas, $Valor_Comissao)";
+        $sql = "INSERT INTO Usuario (CPF, Nome, Telefone, Endereco, Email, Admin, Qtd_Vendas, Valor_Comissao) VALUES $data";
+        $connection->query($sql);
+        $idUsuario = mysqli_insert_id($connection);
+        mysqli_close($connection);
+        return new Usuario($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao);
+    }
+
+    public function getOneUsuario($idUsuario) {
+        $connection = $this->connect();
+        $sql = "SELECT * FROM Usuario WHERE idUsuario = $idUsuario";
+        $result = $connection->query($sql);
+        mysqli_close($connection);
+        return $this->fetchData($result)[0];
+    }
+
+    public function getAllUsuarios() {
+        $connection = $this->connect();
+        $sql = "SELECT * FROM Usuario";
+        $result = $connection->query($sql);
+        mysqli_close($connection);
+        return $this->fetchData($result);
+    }
+
+    public function updateUsuario($idUsuario, $UsuarioData) {
+        $connection = $this->connect();
+        $data = "CPF = \"$UsuarioData->CPF\", Nome = \"$UsuarioData->Nome\", Telefone = \"$UsuarioData->Telefone\", Endereco = \"$UsuarioData->Endereco\", Email = \"$UsuarioData->Email\", Admin = $UsuarioData->Admin, Qtd_Vendas = $UsuarioData->Qtd_Vendas, Valor_Comissao = $UsuarioData->Valor_Comissao";
+        $sql = "UPDATE Usuario SET $data WHERE idUsuario = $idUsuario";
+        $res = mysqli_query($connection, $sql);
+        mysqli_close($connection);
+        return $this->getOneUsuario($idUsuario);
+    }
+
+    public function deleteUsuario($idUsuario) {
+        $deleted = $this->getOneUsuario($idUsuario);
+        $connection = $this->connect();
+        $sql = "DELETE FROM Usuario WHERE idUsuario = $idUsuario";
         mysqli_query($connection, $sql);
-        $idProduto = mysqli_insert_id($connection);
         mysqli_close($connection);
-        return new Produto($idProduto, $cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao);
+        return $deleted;
     }
 
-    public function getOneProduto($idProduto) {
-        $connection = $this->connect();
-        $sql = "SELECT * FROM Produto WHERE idProduto = $idProduto";
-        $result = mysqli_fetch_all(mysqli_query($connection, $sql), MYSQLI_ASSOC);
-        mysqli_close($connection);
-        return $result;
-    }
-
-    public function getAllProdutos() {
-        $connection = $this->connect();
-        $sql = "SELECT * FROM Produto";
-        $query = mysqli_query($connection, $sql);
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-        mysqli_close($connection);
-        return $result;
-    }
-
-    public function updateProduto($idProduto, $ProdutoData) {
-        $connection = $this->connect();
-        $data = "(cpf = \"$cpf\", nome = \"$nome\", telefone = \"$telefone\", endereco = \"$endereco\", email = \"$email\", admin = \"$admin\", qtd_vendas = \"$qtd_vendas\", valor_comissao = \"$valor_comissao\")";
-        $sql = "UPDATE Produto SET $data WHERE idProduto = $ProdutoData->idProduto";
-        mysqli_query($connection, $sql);
-        mysqli_close($connection);
-    }
-
-    public function deleteProduto($idProduto) {
-        $connection = $this->connect();
-        $sql = "DELETE FROM Produto WHERE idProduto = $idProduto";
-        mysqli_query($connection, $sql);
-        mysqli_close($connection);
+    private function fetchData($dataArray) {
+        $res = array();
+        foreach($dataArray as $usuario) {
+            $data = new Usuario($usuario[idUsuario], $usuario[CPF], $usuario[Nome], $usuario[Telefone], $usuario[Endereco], $usuario[Email], $usuario[Admin], $usuario[Qtd_Vendas], $usuario[Valor_Comissao]);
+            array_push($res, $data);
+        }
+        return $res;
     }
 }
 ?>
