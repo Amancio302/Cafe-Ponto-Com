@@ -38,7 +38,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
     Para cada nova issue, uma branch deverá ser criada, sendo o nome da branch igual ao número e nome da issue. Essas branches deverão ser criadas a partir da branch "development"
 ### Hierarquia de diretórios
 #### Documentação
-    Toda a documentação do projeto estará nas pastas "Padrões de Projeto" e "Requisitos"
+    Toda a documentação do projeto estará nas pastas "Padrões Adotados" e "Requisitos"
 #### Código
     Todo o código estará contido na pasta "src"
 ##### Assets
