@@ -1,48 +1,67 @@
 <?php
-include_once("Database_Connect.php, @/models/Venda.php");
+require_once("Database_Connect.php");
+require_once("UsuarioDAO.php");
+require_once("../models/Venda.php");
 
-class Venda extends Database_Connect{
+class VendaDAO extends Database_Connect{
 
-    public function createVenda($idUsuario, $valor_total, $valor_pago, $tipo_transacao, $concluido) {
+    public function createVenda($idUsuario) {
         $connection = $this->connect();
-        $data = "(\"$idUsuario\", \"$valor_total\", \"$valor_pago\", \"$tipo_transacao\", \"$concluido\")";
-        $sql = "INSERT INTO Venda (idUsuario, valor_total, valor_pago, tipo_transacao, concluido) VALUES $data";
-        mysqli_query($connection, $sql);
+        $data = "($idUsuario, 0)";
+        $sql = "INSERT INTO Venda (idUsuario, Concluida) VALUES $data";
+        $connection->query($sql);
         $idVenda = mysqli_insert_id($connection);
         mysqli_close($connection);
-        return new Venda($idVenda, $idUsuario, $valor_total, $valor_pago, $tipo_transacao, $concluido);
+        $Usuario = new UsuarioDAO();
+        $usuario = $Usuario->getOneUsuario($idUsuario);
+        return new Venda($idVenda, $usuario, null, null, null, 0);
     }
 
     public function getOneVenda($idVenda) {
         $connection = $this->connect();
         $sql = "SELECT * FROM Venda WHERE idVenda = $idVenda";
-        $result = mysqli_fetch_all(mysqli_query($connection, $sql), MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result)[0];
     }
 
     public function getAllVendas() {
         $connection = $this->connect();
         $sql = "SELECT * FROM Venda";
-        $query = mysqli_query($connection, $sql);
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result);
     }
 
     public function updateVenda($idVenda, $VendaData) {
         $connection = $this->connect();
-        $data = "(idUsuario = \"$idUsuario\", valor_total = \"$valor_total\", valor_pago \"$valor_pago\", tipo_transacao = \"$tipo_transacao\", concluido = \"$concluido\")";
-        $sql = "UPDATE Venda SET $data WHERE idVenda = $VendaData->idVenda";
-        mysqli_query($connection, $sql);
+        print_r($VendaData);
+        $data = "idUsuario = $VendaData->idUsuario, Valor_Total = $VendaData->Valor_Total, Valor_Pago = $VendaData->Valor_Pago, Tipo_Transacao = \"$VendaData->Tipo_Transacao\" Concluida = $VendaData->Concluida";
+        $sql = "UPDATE Venda SET $data WHERE idVenda = $idVenda";
+        $res = mysqli_query($connection, $sql);
         mysqli_close($connection);
+        return $this->getOneVenda($idVenda);
     }
 
     public function deleteVenda($idVenda) {
+        $deleted = $this->getOneVenda($idVenda);
         $connection = $this->connect();
         $sql = "DELETE FROM Venda WHERE idVenda = $idVenda";
+        print_r($sql);
         mysqli_query($connection, $sql);
         mysqli_close($connection);
+        return $deleted;
+    }
+
+    private function fetchData($dataArray) {
+        $res = array();
+        foreach($dataArray as $Venda) {
+            $Usuario = new UsuarioDAO();
+            $usuario = $Usuario->getOneUsuario($idUsuario);
+            $data = new Venda($Venda[idVenda], $usuario, $Venda[Valor_Total], $Venda[Valor_Pago], $Venda[Tipo_Transacao], $Venda[Concluida]);
+            array_push($res, $data);
+        }
+        return $res;
     }
 }
 ?>
