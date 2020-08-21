@@ -6,13 +6,13 @@
                 echo 'console.log('. json_encode( $data ) .')';
                 echo '</script>';
             }
-            require_once("UsuarioDAO.php");
-            $test = new UsuarioDAO();
-            $obj = $test->getAllUsuarios();
+            require_once("VendaDAO.php");
+            $test = new VendaDAO();
+            $obj = $test->getAllVendas();
             console_log($obj);
-            $obj = $test->deleteUsuario(11);
+            $obj = $test->deleteVenda(2);
             console_log($obj);
-            $obj = $test->getAllUsuarios();
+            $obj = $test->getAllVendas();
             console_log($obj);
         ?>
     </body>
