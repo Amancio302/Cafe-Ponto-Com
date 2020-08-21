@@ -8,14 +8,13 @@ class ProdutoDAO extends Database_Connect{
     public function createProduto($Nome, $Descricao, $Preco, $Quantidade, $addedBy) {
         $connection = $this->connect();
         $data = "(\"$Nome\", \"$Descricao\", $Preco, $Quantidade, $addedBy)";
-        $sql = "INSERT INTO (Nome, Descricao, Preco, Quantidade, addedBy) VALUES $data";
-        print_r($sql);
+        $sql = "INSERT INTO Produto (Nome, Descricao, Preco, Quantidade, addedBy) VALUES $data";
         $connection->query($sql);
         $idProduto = mysqli_insert_id($connection);
         mysqli_close($connection);
         $Usuario = new UsuarioDAO();
         $usuario = $Usuario->getOneUsuario($addedBy);
-        return new Produto($idProduto, $Nome, $Descricao, $Preco, $Quantidade, $addedBy);
+        return new Produto($idProduto, $Nome, $Descricao, $Preco, $Quantidade, $usuario);
     }
 
     public function getOneProduto($idProduto) {
@@ -27,24 +26,19 @@ class ProdutoDAO extends Database_Connect{
     }
 
     public function getAllProdutos() {
-        echo "11<br>";
         $connection = $this->connect();
-        echo "12<br>";
         $sql = "SELECT * FROM Produto";
-        echo "13<br>";
-        print_r($sql);
         $result = $connection->query($sql);
-        echo "<br>14<br>";
         mysqli_close($connection);
-        echo "15<br>";
         return $this->fetchData($result);
     }
 
     public function updateProduto($idProduto, $ProdutoData) {
         $connection = $this->connect();
-        print_r($ProdutoData);
-        $data = "idUsuario = $ProdutoData->idUsuario, Valor_Total = $ProdutoData->Valor_Total, Valor_Pago = $ProdutoData->Valor_Pago, Tipo_Transacao = \"$ProdutoData->Tipo_Transacao\" Concluida = $ProdutoData->Concluida";
+        $idUsuario = $ProdutoData->addedBy->idUsuario;
+        $data = "Nome = \"$ProdutoData->Nome\", Descricao = \"$ProdutoData->Descricao\", Preco = $ProdutoData->Preco, Quantidade = $ProdutoData->Quantidade, addedBy = $idUsuario";
         $sql = "UPDATE Produto SET $data WHERE idProduto = $idProduto";
+        print_r($sql);
         $res = mysqli_query($connection, $sql);
         mysqli_close($connection);
         return $this->getOneProduto($idProduto);
@@ -64,7 +58,7 @@ class ProdutoDAO extends Database_Connect{
         foreach($dataArray as $Produto) {
             $Usuario = new UsuarioDAO();
             $usuario = $Usuario->getOneUsuario($Produto[addedBy]);
-            $data = new Produto($Produto[idProduto], $usuario, $Produto[Valor_Total], $Produto[Valor_Pago], $Produto[Tipo_Transacao], $Produto[Concluida]);
+            $data = new Produto($Produto[idProduto], $Produto[Nome],  $Produto[Descricao], $Produto[Preco], $Produto[Quantidade], $usuario);
             array_push($res, $data);
         }
         return $res;
