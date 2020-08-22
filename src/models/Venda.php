@@ -1,14 +1,14 @@
 <?php
+
 class Venda {
 
-    function __construct ($idVenda, $idUsuario, $valor_total, $valor_pago, $tipo_transacao, $email, $concluido) {
+    public function __construct ($idVenda, $Usuario, $Valor_Total, $Valor_Pago, $Tipo_Transacao, $Concluido) {
         $this->idVenda = $idVenda;
-        $this->idUsuario = $idUsuario;
-        $this->valor_total = $valor_total;
-        $this->valor_pago = $valor_pago;
-        $this->tipo_transacao = $tipo_transacao;
-        $this->email = $email;
-        $this->concluido = $concluido;
+        $this->Usuario = $Usuario;
+        $this->Valor_Total = $Valor_Total;
+        $this->Valor_Pago = $Valor_Pago;
+        $this->Tipo_Transacao = $Tipo_Transacao;
+        $this->Concluido = $Concluido;
     }
 }
 ?>

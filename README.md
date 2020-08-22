@@ -20,7 +20,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
 #### Estilização
     CSS - Versão: 3.0
 ### Banco de Dados
-	phpMyAdmin - Versão: 5.0.2
+	MySQL - Versão: 8.0.20
 ### Servidor WEB
 	Apache2 - Versão: 2.4.43
 ## Padrões de Uso
@@ -38,7 +38,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
     Para cada nova issue, uma branch deverá ser criada, sendo o nome da branch igual ao número e nome da issue. Essas branches deverão ser criadas a partir da branch "development"
 ### Hierarquia de diretórios
 #### Documentação
-    Toda a documentação do projeto estará nas pastas "Padrões de Projeto" e "Requisitos"
+    Toda a documentação do projeto estará nas pastas "Padrões Adotados" e "Requisitos"
 #### Código
     Todo o código estará contido na pasta "src"
 ##### Assets
