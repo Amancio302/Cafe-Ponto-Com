@@ -1,6 +1,7 @@
 <?php
 require_once("Database_Connect.php");
 require_once("UsuarioDAO.php");
+require_once("PedidoDAO.php");
 require_once("../models/Venda.php");
 
 class VendaDAO extends Database_Connect{
@@ -33,6 +34,11 @@ class VendaDAO extends Database_Connect{
         return $this->fetchData($result);
     }
 
+    public function getAllPedidos($idVenda) {
+        $Pedido = new PedidoDAO();
+        return $Pedido->getAllPedidosByVenda($idVenda);
+    }
+
     public function updateVenda($idVenda, $VendaData) {
         $connection = $this->connect();
         print_r($VendaData);
@@ -57,7 +63,7 @@ class VendaDAO extends Database_Connect{
         $res = array();
         foreach($dataArray as $Venda) {
             $Usuario = new UsuarioDAO();
-            $usuario = $Usuario->getOneUsuario($idUsuario);
+            $usuario = $Usuario->getOneUsuario($Venda[idUsuario]);
             $data = new Venda($Venda[idVenda], $usuario, $Venda[Valor_Total], $Venda[Valor_Pago], $Venda[Tipo_Transacao], $Venda[Concluida]);
             array_push($res, $data);
         }

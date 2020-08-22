@@ -6,18 +6,20 @@
                 echo 'console.log('. json_encode( $data ) .')';
                 echo '</script>';
             }
-            require_once("PedidoDAO.php");
-            $test = new PedidoDAO();
-            $obj = $test->getAllPedidos();
-            console_log($obj);
-            //$obj = $test->createPedido(4, 4, 2);
+            require_once("VendaDAO.php");
+            $test = new VendaDAO();
+            //$obj = $test->getAllVendas();
             //console_log($obj);
-            //$obj = $test->updatePedido(1, $obj);
+            //$obj = $test->createVenda(4, 4, 2);
             //console_log($obj);
-            $obj = $test->deletePedido(2);
-            console_log($obj);
-            $obj = $test->getAllPedidos();
-            console_log($obj);
+            //$obj = $test->updateVenda(1, $obj);
+            //console_log($obj);
+            //$obj = $test->deleteVenda(2);
+            //console_log($obj);
+            //$obj = $test->getAllVendas();
+            //console_log($obj);
+            //$obj = $test->getAllPedidos(4);
+            //console_log($obj);
         ?>
     </body>
 </html>
