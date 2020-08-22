@@ -1,56 +1,81 @@
 <?php
-include_once("Database_Connect.php, @/models/Pedido.php");
+require_once("Database_Connect.php");
+require_once("VendaDAO.php");
+require_once("ProdutoDAO.php");
+require_once("../models/Pedido.php");
 
-class Pedido extends Database_Connect{
+class PedidoDAO extends Database_Connect{
 
     public function createPedido($idVenda, $idProduto, $qtdProduto) {
         $connection = $this->connect();
-        $data = "(\"$idVenda\", \"$idProduto\", \"$qtdProduto\")";
+        $data = "($idVenda, $idProduto, $qtdProduto)";
         $sql = "INSERT INTO Pedido (idVenda, idProduto, qtdProduto) VALUES $data";
-        mysqli_query($connection, $sql);
+        $connection->query($sql);
+        print_r($sql);
         $idPedido = mysqli_insert_id($connection);
         mysqli_close($connection);
-        return new Pedido($idPedido, $idVenda, $idProduto, $qtdProduto);
+        $Venda = new VendaDAO();
+        $venda = $Venda->getOneVenda($idVenda);
+        $Produto = new ProdutoDAO();
+        $produto = $Produto->getOneProduto($idProduto);
+        return new Pedido($idPedido, $venda, $produto, $qtdProduto);
     }
 
     public function getOnePedido($idPedido) {
         $connection = $this->connect();
         $sql = "SELECT * FROM Pedido WHERE idPedido = $idPedido";
-        $result = mysqli_fetch_all(mysqli_query($connection, $sql), MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result)[0];
     }
 
     public function getAllPedidos() {
         $connection = $this->connect();
         $sql = "SELECT * FROM Pedido";
-        $query = mysqli_query($connection, $sql);
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result);
     }
 
     public function getAllPedidosByVenda($idVenda) {
         $connection = $this->connect();
         $sql = "SELECT * FROM Pedido WHERE idVenda = $idVenda";
-        $result = mysqli_fetch_all(mysqli_query($connection, $sql), MYSQLI_ASSOC);
+        $result = $connection->query($sql);
         mysqli_close($connection);
-        return $result;
+        return $this->fetchData($result);
     }
 
-    public function updatePedido($idPedido, $pedidoData) {
+    public function updatePedido($idPedido, $PedidoData) {
         $connection = $this->connect();
-        $data = "(idPedido = \"$pedidoData->idPedido\", idVenda = \"$pedidoData->idVenda\", idProduto =  \"$pedidoData->idProduto\", qtd_produto = \"$pedidoData->qtd_produto\")";
-        $sql = "UPDATE Pedido SET $data WHERE idPedido = $pedidoData->idPedido";
-        mysqli_query($connection, $sql);
+        $idVenda = $PedidoData->Venda->idVenda;
+        $idProduto = $PedidoData->Produto->idProduto;
+        $data = "idVenda = $idVenda, idProduto = $idProduto, qtdProduto = $PedidoData->qtdProduto";
+        $sql = "UPDATE Pedido SET $data WHERE idPedido = $idPedido";
+        $res = mysqli_query($connection, $sql);
         mysqli_close($connection);
+        return $this->getOnePedido($idPedido);
     }
 
     public function deletePedido($idPedido) {
+        $deleted = $this->getOnePedido($idPedido);
         $connection = $this->connect();
         $sql = "DELETE FROM Pedido WHERE idPedido = $idPedido";
         mysqli_query($connection, $sql);
         mysqli_close($connection);
+        return $deleted;
+    }
+
+    private function fetchData($dataArray) {
+        $res = array();
+        foreach($dataArray as $Pedido) {
+            $Venda = new VendaDAO();
+            $venda = $Venda->getOneVenda($Pedido[idVenda]);
+            $Produto = new ProdutoDAO();
+            $produto = $Produto->getOneProduto($Pedido[idProduto]);
+            $data = new Pedido($Pedido[idPedido], $venda,  $produto, $Pedido[qtdProduto]);
+            array_push($res, $data);
+        }
+        return $res;
     }
 }
 ?>
