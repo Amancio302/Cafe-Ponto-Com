@@ -11,7 +11,6 @@ class PedidoDAO extends Database_Connect{
         $data = "($idVenda, $idProduto, $qtdProduto)";
         $sql = "INSERT INTO Pedido (idVenda, idProduto, qtdProduto) VALUES $data";
         $connection->query($sql);
-        print_r($sql);
         $idPedido = mysqli_insert_id($connection);
         mysqli_close($connection);
         $Venda = new VendaDAO();
