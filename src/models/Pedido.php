@@ -1,10 +1,10 @@
 <?php
 class Pedido {
 
-    function __construct ($idPedido, $idVenda, $idProduto, $qtdProduto) {
+    function __construct ($idPedido, $Venda, $Produto, $qtdProduto) {
         $this->idPedido = $idPedido;
-        $this->idVenda = $idVenda;
-        $this->idProduto = $idProduto;
+        $this->Venda = $Venda;
+        $this->Produto = $Produto;
         $this->qtdProduto = $qtdProduto;
     }
 }
