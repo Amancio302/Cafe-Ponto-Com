@@ -41,7 +41,6 @@ class VendaDAO extends Database_Connect{
 
     public function updateVenda($idVenda, $VendaData) {
         $connection = $this->connect();
-        print_r($VendaData);
         $data = "idUsuario = $VendaData->idUsuario, Valor_Total = $VendaData->Valor_Total, Valor_Pago = $VendaData->Valor_Pago, Tipo_Transacao = \"$VendaData->Tipo_Transacao\" Concluida = $VendaData->Concluida";
         $sql = "UPDATE Venda SET $data WHERE idVenda = $idVenda";
         $res = mysqli_query($connection, $sql);
@@ -53,7 +52,6 @@ class VendaDAO extends Database_Connect{
         $deleted = $this->getOneVenda($idVenda);
         $connection = $this->connect();
         $sql = "DELETE FROM Venda WHERE idVenda = $idVenda";
-        print_r($sql);
         mysqli_query($connection, $sql);
         mysqli_close($connection);
         return $deleted;

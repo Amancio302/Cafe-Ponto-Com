@@ -38,7 +38,6 @@ class ProdutoDAO extends Database_Connect{
         $idUsuario = $ProdutoData->addedBy->idUsuario;
         $data = "Nome = \"$ProdutoData->Nome\", Descricao = \"$ProdutoData->Descricao\", Preco = $ProdutoData->Preco, Quantidade = $ProdutoData->Quantidade, addedBy = $idUsuario";
         $sql = "UPDATE Produto SET $data WHERE idProduto = $idProduto";
-        print_r($sql);
         $res = mysqli_query($connection, $sql);
         mysqli_close($connection);
         return $this->getOneProduto($idProduto);
