@@ -124,11 +124,21 @@ body {
   width: 100%;
 }
 
-/* conteudo */
+/* conteudo dashboard */
 .main {
   height: calc(100vh - 48px);
 }
 
 .welcome {
   color: rgba(80, 39, 1, 0.95);
+}
+
+/* novo pedido */
+
+.btn-novo-pedido {
+  width: 400px;
+  padding: 15px;
+  color: #502701;
+  background: #ffefc7;
+  font-weight: bolder;
 }
