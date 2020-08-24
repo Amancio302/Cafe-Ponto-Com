@@ -108,38 +108,31 @@
                 <h1 class="welcome mb-3">Gerenciar Produtos</h1>
         
         <div class="row">
-            <div class="dropdown col-lg-6 mt-2">
-                <button class="btn btn-default dropdown-toggle btn-produto" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Produto 1
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" style="color:#ffefc7" aria-labelledby="dropdownMenu1">
-                    <li><a class="drop-edit" href="#">Editar</a></li>
-                    <li><a class="drop-edit" href="#">Excluir</a></li>
-                </ul>
-            </div>
-    
-            <div class="dropdown col-lg-6 mt-2">
-                <button class="btn btn-default dropdown-toggle btn-produto" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Produto 2
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" style="color:#ffefc7" aria-labelledby="dropdownMenu1">
-                    <li><a class="drop-edit" href="#">Editar</a></li>
-                    <li><a class="drop-edit" href="#">Excluir</a></li>
-                </ul>
-            </div>
-
-            <div class="dropdown col-lg-6 mt-2">
-                <button class="btn btn-default dropdown-toggle btn-produto" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Produto 3
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" style="color:#ffefc7" aria-labelledby="dropdownMenu1">
-                    <li><a class="drop-edit" href="#">Editar</a></li>
-                    <li><a class="drop-edit" href="#">Excluir</a></li>
-                </ul>
-            </div>
+            <?php
+                $produtos = getAllProdutos();
+                foreach ($produtos as $produto) {
+                    console_log($produto);
+                    echo '<div class="dropdown col-lg-6 mt-2">
+                            <button class="btn btn-default dropdown-toggle btn-produto" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">';
+                    echo $produto->Nome;
+                    echo '      <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" style="color:#ffefc7" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <form action="ProdutoController.php" method="post">
+                                        <input type="hidden" name="id" id="id" value="';
+                    echo $produto->idProduto;
+                    echo                '">
+                                        <input type="submit" class="drop-edit" style="border: 0; background: transparent;" value="Excluir">
+                                    </form>
+                                </li>
+                                <li>
+                                    <a class="drop-edit" href="#">Editar</a>
+                                </li>
+                            </ul>
+                        </div>';
+                }
+            ?>
         </div>
 
             <button
