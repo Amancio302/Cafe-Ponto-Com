@@ -9,6 +9,7 @@ class ProdutoDAO extends Database_Connect{
         $connection = $this->connect();
         $data = "(\"$Nome\", \"$Descricao\", $Preco, $Quantidade, $addedBy)";
         $sql = "INSERT INTO Produto (Nome, Descricao, Preco, Quantidade, addedBy) VALUES $data";
+        console_log($sql);
         $connection->query($sql);
         $idProduto = mysqli_insert_id($connection);
         mysqli_close($connection);

@@ -106,29 +106,28 @@
         <main role="main" class="main col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <div class="pt-3 pb-2 mb-3 d-flex flex-column">
                 <h1 class="welcome mb-3">Cadastrar Novo Produto</h1>
+            <form action="CadastrarProdutoController.php" method="POST">
+                <div class="form-group col-lg-5" style="padding-left:0px;">
+                    <label class="label-cafe" for="nomeProduto">Nome do Produto</label>
+                    <input name="nomeProduto" class="form-control" placeholder="Nome do Produto" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <label class="label-cafe" for="descricaoProduto">Descrição do Produto</label>
+                    <input name="descricaoProduto" class="form-control" placeholder="Descrição" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group col-lg-4" style="padding-left:0px;">
+                    <label class="label-cafe"  for="precoProduto">Preço do Produto</label>
+                    <input name="precoProduto" class="form-control" placeholder="Preço" type="money">
+                </div> <!-- form-group// --> 
 
-            <div class="form-group col-lg-5" style="padding-left:0px;">
-                <label class="label-cafe" for="nomeProduto">Nome do Produto</label>
-                <input id="nomeProduto" class="form-control" placeholder="Nome do Produto" type="text">
-            </div> <!-- form-group// -->
-            <div class="form-group">
-                <label class="label-cafe" for="descricaoProduto">Descrição do Produto</label>
-                <input id="descricaoProduto" class="form-control" placeholder="Descrição" type="text">
-            </div> <!-- form-group// -->
-            <div class="form-group col-lg-4" style="padding-left:0px;">
-                <label class="label-cafe"  for="precoProduto">Preço do Produto</label>
-                <input id="precoProduto" class="form-control" placeholder="Preço" type="money">
-            </div> <!-- form-group// --> 
-
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Cadastrar Produto
-            </button>
+                <input
+                type="submit"
+                class="btn btn-warning btn-lg btn-novo-pedido mt-3"
+                data-toggle="modal"
+                data-target="#myModal"
+                value="Cadastrar Produto"
+                >
+            </form>
           </div>
         </main>
       </div>
