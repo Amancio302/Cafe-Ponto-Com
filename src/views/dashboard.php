@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+session_start();
+?>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -54,7 +56,14 @@
       </button>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sair</a>
+          <form action="DashboardController.php" method="GET">
+                <?php
+                    echo '<input type="hidden" name="id" value="';
+                    echo $_SESSION["user"];
+                    echo '">';
+                ?>
+                <input type="submit" class="nav-link" style="border: 0; background: transparent" value="Sair">
+            </form>
         </li>
       </ul>
     </nav>
@@ -115,7 +124,11 @@
               height="150"
               alt="circulo"
             />
-            <h1 class="welcome pt-3">Seja bem-vindo, Ednaldo!</h1>
+            <h1 class="welcome pt-3">Seja bem-vindo, 
+                <?php
+                    echo getNome($_SESSION["user"]);
+                ?>
+            !</h1>
           </div>
         </main>
       </div>

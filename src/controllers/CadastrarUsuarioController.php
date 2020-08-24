@@ -1,6 +1,7 @@
 <?php
-    session_start();
     require_once("../persistance/UsuarioDAO.php");
+    require_once("../views/cadastrar.php");
+    
     if ($_POST['inputPassword'] != null) {
         login($_POST['inputEmail'], $_POST['inputPassword']);
     }
@@ -17,15 +18,7 @@
         if (!$res) {
             echo "<script>alert('Usuario inválido')</script>";
         } else {
-            $_SESSION["user"] = $res->idUsuario;
-            console_log($_SESSION);
             header('Location: ./DashboardController.php');
         }
-    }
-
-    if ($_SESSION["user"] == null) {
-        require_once("../views/login.php");
-    } else {
-        header('Location: DashboardController.php');
     }
 ?>

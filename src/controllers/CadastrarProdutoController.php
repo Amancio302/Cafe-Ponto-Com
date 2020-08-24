@@ -1,8 +1,6 @@
 <?php
     session_start();
     require_once("../persistance/ProdutoDAO.php");
-    require_once("../views/cadastrarProduto.html");
-    
     if ($_POST["nomeProduto"] != null) {
         cadastrar($_POST["nomeProduto"], $_POST["descricaoProduto"], $_POST["precoProduto"]);
     }
@@ -19,5 +17,11 @@
         console_log($user);
         $res = $Produto->createProduto($nome, $descricao, $preco, 0, $user);
         echo "<script>alert('Produto Cadastrado')</script>";
+    }
+
+    if ($_SESSION["user"] != null) {
+        require_once("../views/cadastrarProduto.php");
+    } else {
+        header('Location: LoginController.php');
     }
 ?>
