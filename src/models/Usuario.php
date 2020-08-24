@@ -2,7 +2,7 @@
 
 class Usuario {
 
-    public function __construct ($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao) {
+    public function __construct ($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha) {
         $this->idUsuario = $idUsuario;
         $this->CPF = $CPF;
         $this->Nome = $Nome;
@@ -12,6 +12,7 @@ class Usuario {
         $this->Admin = $Admin;
         $this->Qtd_Vendas = $Qtd_Vendas;
         $this->Valor_Comissao = $Valor_Comissao;
+        $this->senha = $senha;
     }
 }
 

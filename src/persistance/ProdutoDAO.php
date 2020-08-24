@@ -9,6 +9,7 @@ class ProdutoDAO extends Database_Connect{
         $connection = $this->connect();
         $data = "(\"$Nome\", \"$Descricao\", $Preco, $Quantidade, $addedBy)";
         $sql = "INSERT INTO Produto (Nome, Descricao, Preco, Quantidade, addedBy) VALUES $data";
+        console_log($sql);
         $connection->query($sql);
         $idProduto = mysqli_insert_id($connection);
         mysqli_close($connection);
@@ -38,8 +39,7 @@ class ProdutoDAO extends Database_Connect{
         $idUsuario = $ProdutoData->addedBy->idUsuario;
         $data = "Nome = \"$ProdutoData->Nome\", Descricao = \"$ProdutoData->Descricao\", Preco = $ProdutoData->Preco, Quantidade = $ProdutoData->Quantidade, addedBy = $idUsuario";
         $sql = "UPDATE Produto SET $data WHERE idProduto = $idProduto";
-        print_r($sql);
-        $res = mysqli_query($connection, $sql);
+        $res = $connection->query($sql);
         mysqli_close($connection);
         return $this->getOneProduto($idProduto);
     }
@@ -48,9 +48,12 @@ class ProdutoDAO extends Database_Connect{
         $deleted = $this->getOneProduto($idProduto);
         $connection = $this->connect();
         $sql = "DELETE FROM Produto WHERE idProduto = $idProduto";
-        mysqli_query($connection, $sql);
+        $res = $connection->query($sql);
         mysqli_close($connection);
-        return $deleted;
+        if ($res)
+            return $deleted;
+        else
+            return false;
     }
 
     private function fetchData($dataArray) {
