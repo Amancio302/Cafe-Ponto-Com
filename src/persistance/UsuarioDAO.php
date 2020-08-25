@@ -14,13 +14,18 @@ class UsuarioDAO extends Database_Connect{
     }
 
     public function createUsuario($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha) {
+        echo $CPF. "<br>" .$Nome. "<br>" .$Telefone. "<br>" .$Endereco. "<br>" .$Email. "<br>" .$Admin. "<br>" .$Qtd_Vendas. "<br>" .$Valor_Comissao. "<br>" .$senha;
         $connection = $this->connect();
         $data = "(\"$CPF\", \"$Nome\", \"$Telefone\", \"$Endereco\", \"$Email\", $Admin, $Qtd_Vendas, $Valor_Comissao, \"$senha\")";
         $sql = "INSERT INTO Usuario (CPF, Nome, Telefone, Endereco, Email, Admin, Qtd_Vendas, Valor_Comissao, senha) VALUES $data";
+        echo "<br>" . $sql;
         $connection->query($sql);
         $idUsuario = mysqli_insert_id($connection);
+        echo $idUsuario;
         mysqli_close($connection);
-        return new Usuario($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao);
+        $user = new Usuario($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha);
+        print_r($user);
+        return $user;
     }
 
     public function getOneUsuario($idUsuario) {

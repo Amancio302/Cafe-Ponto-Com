@@ -5,5 +5,9 @@
 
         protected $persistance;
 
+        function redirect ($view) {
+            header("Location: ./$view.php");
+        }
+
     }
 ?>
