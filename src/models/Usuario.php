@@ -1,16 +1,19 @@
 <?php
+
 class Usuario {
 
-    function __construct ($idUsuario, $cpf, $nome, $telefone, $endereco, $email, $admin, $qtd_vendas, $valor_comissao) {
+    public function __construct ($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha) {
         $this->idUsuario = $idUsuario;
-        $this->cpf = $cpf;
-        $this->nome = $nome;
-        $this->telefone = $telefone;
-        $this->endereco = $endereco;
-        $this->email = $email;
-        $this->admin = $admin;
-        $this->qtd_vendas = $qtd_vendas;
-        $this->valor_comissao = $valor_comissao;
+        $this->CPF = $CPF;
+        $this->Nome = $Nome;
+        $this->Telefone = $Telefone;
+        $this->Endereco = $Endereco;
+        $this->Email = $Email;
+        $this->Admin = $Admin;
+        $this->Qtd_Vendas = $Qtd_Vendas;
+        $this->Valor_Comissao = $Valor_Comissao;
+        $this->senha = $senha;
     }
 }
+
 ?>
