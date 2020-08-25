@@ -5,24 +5,27 @@
 
         protected $controller;
         protected $needAuth;
-
-        function __contruct ($needAuth, $controller) {
-            $this->needAuth = $needAuth;
-            $this->controller = $controller;
-        }
+        protected $name;
 
         public function redirect ($view) {
-            header('Location: ./DashboardController.php');
+            header("Location: ./$view.php");
         }
 
-        public function render() {
-            if ($needAuth && isset($_SESSION["user"])) {
+        public function render () {
+            if ($this->needAuth && isset($_SESSION["user"])) {
                 echo $this->output();
-            } else if (!$needAuth && isset($_SESSION["user"])) {
-                $this->redirect("Login.php");
+            } else if (!$this->needAuth && isset($_SESSION["user"]) && $this->name != 'Dashboard') {
+                $this->redirect("Dashboard");
+            } else if ($this->name != 'Login'){
+                $this->redirect("Login");
             } else {
-                $this->redirect("Dashboard.php");
+                echo $this->output();
             }
+        }
+
+        public function sair () {
+            $_SESSION["user"] = null;
+            $this->redirect("Login");
         }
 
         public abstract function output ();

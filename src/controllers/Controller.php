@@ -5,8 +5,5 @@
 
         protected $persistance;
 
-        function __contruct ($persistance) {
-            $this->persistance = $persistance;
-        }
     }
 ?>
