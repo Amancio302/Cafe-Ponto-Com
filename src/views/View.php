@@ -39,7 +39,7 @@
             if ($_SESSION["admin"]) {
                 return "
                 <li class=\"nav-item\">
-                    <a class=\"nav-link pt-3 pb-3\" href=\"#\">
+                    <a class=\"nav-link pt-3 pb-3\" href=\"./Gerenciar_Usuarios.php\">
                     <span data-feather=\"coffee\"></span>
                     Administrar Usuarios
                     </a>
