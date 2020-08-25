@@ -24,9 +24,7 @@
         }
 
         function signIn ($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha) {
-            echo $CPF. "<br>" .$Nome. "<br>" .$Telefone. "<br>" .$Endereco. "<br>" .$Email. "<br>" .$Admin. "<br>" .$Qtd_Vendas. "<br>" .$Valor_Comissao. "<br>" .$senha;
             $res = $this->persistance->createUsuario($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha);
-            echo "<br>2";
             if (!!$res) {
                 $this->login($res->Email, $res->senha);
                 return true;
