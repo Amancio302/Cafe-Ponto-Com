@@ -10,12 +10,28 @@
         }
 
         function login ($email, $senha) {
-            return $this->persistance->login($email, $senha);
+            $res =  $this->persistance->login($email, $senha);
+            if (!!$res) {
+                $_SESSION["user"] = $res->idUsuario;
+                $this->redirect("Dashboard");
+            }
+            return $res;
         }
 
         function getNome ($idUsuario) {
             return $this->persistance->getOneUsuario($idUsuario)->Nome;
         }
-        
+
+        function signIn ($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha) {
+            echo $CPF. "<br>" .$Nome. "<br>" .$Telefone. "<br>" .$Endereco. "<br>" .$Email. "<br>" .$Admin. "<br>" .$Qtd_Vendas. "<br>" .$Valor_Comissao. "<br>" .$senha;
+            $res = $this->persistance->createUsuario($CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha);
+            echo "<br>2";
+            if (!!$res) {
+                $this->login($res->Email, $res->senha);
+                return true;
+            } else {
+                return false;
+            }
+        }        
     }
 ?>

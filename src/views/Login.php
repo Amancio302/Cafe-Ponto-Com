@@ -12,14 +12,11 @@
         }
 
         function login ($email, $senha) {
-            echo 'AQUI1';
             $res = $this->controller->login($email, $senha);
-            echo 'AQUI2';
             if (!$res) {
                 echo "<script>alert('Usuario inválido')</script>";
             } else {
-                $_SESSION["user"] = $res->idUsuario;
-                $this->redirect("Dashboard.php");
+                echo "<script>alert('Usuario autenticado')</script>";
             }
         }
 
@@ -74,7 +71,7 @@
                         
                                     <button class=\"btn btn-lg btn-cafe btn-block md-5\" type=\"submit\">Entrar</button>
                         
-                                    <a class=\"mt-5\"  style=\"color:white;\">É novo por aqui ? Cadastre-se</a>
+                                    <a class=\"mt-5\" href=\"./Cadastrar_Usuario.php\" style=\"color:white;\">É novo por aqui ? Cadastre-se</a>
                         
                                     <p class=\"mt-2 mb-3 text-muted\">&copy; 2020</p> 
                                 </form>
@@ -91,7 +88,6 @@
     // Aqui testamos os POST e GETS da página renderizada
 
     if (isset($_POST["inputEmail"]) && isset($_POST["inputPassword"])) {
-        echo 'AQUI';
         $view->login($_POST['inputEmail'], $_POST['inputPassword']);
     }
 

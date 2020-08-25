@@ -8,18 +8,24 @@
         protected $name;
 
         public function redirect ($view) {
-            header("Location: ./$view.php");
+            $this->controller->redirect($view);
         }
 
         public function render () {
-            if ($this->needAuth && isset($_SESSION["user"])) {
-                echo $this->output();
-            } else if (!$this->needAuth && isset($_SESSION["user"]) && $this->name != 'Dashboard') {
-                $this->redirect("Dashboard");
-            } else if ($this->name != 'Login'){
-                $this->redirect("Login");
+            if ($this->needAuth) {
+                if (isset($_SESSION["user"])) {
+                    echo $this->output();
+                } else {
+                    if ($this->name != "Login")
+                        $this->redirect("Login");
+                }
             } else {
-                echo $this->output();
+                if (isset($_SESSION["user"])) {
+                    if ($this->name != "Dashboard")
+                        $this->redirect("Dashboard");
+                } else {
+                    echo $this->output();
+                }
             }
         }
 
