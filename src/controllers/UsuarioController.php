@@ -31,6 +31,24 @@
             } else {
                 return false;
             }
-        }        
+        }
+
+        function getOneUsuario ($idUsuario) {
+            return $this->persistance->getOneUsuario($idUsuario);
+        }
+        
+        function getAllUsuarios () {
+            return $this->persistance->getAllUsuarios();
+        }
+
+        function promoveUsuario ($idUsuario) {
+            $user = $this->persistance->getOneUsuario($idUsuario);
+            $user->Admin = true;
+            return !!$this->persistance->updateUsuario($idUsuario, $user);
+        }
+
+        function deleteusuario ($idUsuario) {
+            return !!$this->persistance->deleteusuario($idUsuario);
+        }
     }
 ?>
