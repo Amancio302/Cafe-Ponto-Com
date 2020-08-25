@@ -7,7 +7,7 @@ Victor Gustavo Cabral Rodrigues
 Matheus Amâncio Ferreira
 ## Descrição
 Sistema web para gerenciamento interno da cafeteria CafePontoCom.
-O sistema será responsável por cadastrar e gerenciar produtos e atendente, alm de gerar e gerenciar vendas.
+O sistema será responsável por cadastrar e gerenciar produtos e atendente, alm de gerar e Gerenciar Vendas.
 Os tipos de usuário serão: Atendentes e Gerentes. 
 ## Tecnologias Empregadas
 ### Linguagens

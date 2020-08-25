@@ -126,36 +126,37 @@
                       <div class=\"sidebar-sticky\">
                         <ul class=\"nav flex-column\">
                           <li class=\"nav-item\">
-                            <a class=\"nav-link pt-3 pb-3\" href=\"#\">
+                            <a class=\"nav-link pt-3 pb-3\" href=\"./Dashboard.php\">
                               <span data-feather=\"home\"></span>
                               Menu Principal <span class=\"sr-only\"></span>
                             </a>
                           </li>
                           <li class=\"nav-item\">
-                            <a class=\"nav-link pt-3 pb-3\" href=\"#\">
+                            <a class=\"nav-link pt-3 pb-3\" href=\"./Cadastrar_Produto.php\">
+                                <span data-feather=\"plus-circle\"></span>
+                                Cadastrar Produto
+                            </a>
+                        </li>
+                        <li class=\"nav-item\">
+                            <a class=\"nav-link active pt-3 pb-3\" href=\"./Gerenciar_Produtos.php\">
+                                <span data-feather=\"edit\"></span>
+                                Gerenciar Produtos
+                            </a>
+                        </li>
+                          <li class=\"nav-item\">
+                            <a class=\"nav-link pt-3 pb-3\" href=\"./Cadastrar_Venda.php\">
                               <span data-feather=\"plus-circle\"></span>
-                              Novo Produto
+                              Cadastrar Venda
                             </a>
                           </li>
                           <li class=\"nav-item\">
-                            <a class=\"nav-link pt-3 pb-3\" href=\"#\">
-                              <span data-feather=\"edit\"></span>
-                              Gerenciar Pedidos
-                            </a>
-                          </li>
-                          <li class=\"nav-item\">
-                            <a class=\"nav-link pt-3 pb-3\" href=\"#\">
-                              <span data-feather=\"plus-circle\"></span>
-                              Cadastrar Produtos
-                            </a>
-                          </li>
-                          <li class=\"nav-item\">
-                            <a class=\"nav-link active pt-3 pb-3\" href=\"#\">
+                            <a class=\"nav-link pt-3 pb-3\" href=\"./Gerenciar_Vendas.php\">
                               <span data-feather=\"coffee\"></span>
-                              Gerenciar Produtos
+                              Gerenciar Vendas
                             </a>
-                          </li>
-                        </ul>
+                          </li>".
+                        $this->adminOption()
+                        ."</ul>
                         <div class=\"rodape pt-2 pb-2 d-flex justify-content-center\">
                           Desenvolvido por JVM
                         </div>

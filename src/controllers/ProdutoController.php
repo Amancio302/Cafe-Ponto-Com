@@ -9,10 +9,10 @@
             $this->persistance = new ProdutoDAO();
         }
 
-        function cadastrarProduto ($nome, $descricao, $preco) {
+        function createProduto ($nome, $descricao, $preco) {
             $user = $_SESSION["user"];
-            $res = $this->persistance->createProduto($nome, $descricao, $preco, 0, $user);
-            return !!$res;
+            $res = !!$this->persistance->createProduto($nome, $descricao, $preco, 0, $user);
+            return $res;
         }
 
         function getAllProdutos () {
@@ -20,8 +20,8 @@
         }
 
         function deleteProduto ($idProduto) {
-            $res = $this->persistance->deleteProduto($idProduto);
-            return !!$res;
+            $res = !!$this->persistance->deleteProduto($idProduto);
+            return $res;
         }
     }
 ?>

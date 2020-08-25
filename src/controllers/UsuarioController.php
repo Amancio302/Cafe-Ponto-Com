@@ -13,6 +13,7 @@
             $res =  $this->persistance->login($email, $senha);
             if (!!$res) {
                 $_SESSION["user"] = $res->idUsuario;
+                $_SESSION["admin"] = $res->Admin;
                 $this->redirect("Dashboard");
             }
             return $res;

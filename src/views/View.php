@@ -31,7 +31,23 @@
 
         public function sair () {
             $_SESSION["user"] = null;
+            $_SESSION["admin"] = null;
             $this->redirect("Login");
+        }
+
+        public function adminOption () {
+            if ($_SESSION["admin"]) {
+                return "
+                <li class=\"nav-item\">
+                    <a class=\"nav-link pt-3 pb-3\" href=\"#\">
+                    <span data-feather=\"coffee\"></span>
+                    Administrar Usuarios
+                    </a>
+                </li>
+                ";
+            } else {
+                return "";
+            }
         }
 
         public abstract function output ();
