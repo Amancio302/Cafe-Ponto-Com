@@ -51,7 +51,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
     Controladores do sistema, agindo como intermediadores entre as views e o resto do sistema
 ##### Views
     Todos os arquivos de visualização
-### Padrão de codificação
+### Padrões de codificação
     Será adotado o padrão SOLID
     * Toda View deve ser um Arquivo PHP que extende um arquivo View.php
     * Todo Controller deve ser um Arquivo PHP que extende a classe Controller
@@ -59,3 +59,4 @@ Os tipos de usuário serão: Atendentes e Gerentes.
     * Todo Acesso aos bancos de dados devem ser feitos por Persistence
     * Todo Arquivo Persistence deve ser nomeado com qual a tabela do Banco de Dados que ela acessa e ao final do nome, colocar "DAO"
     * Todo Persistence deve ser um arquivo PHP e extender um arquivo Database_Connect
+    * Cada Função deve executar assim como a classe, apenas uma funcionalidade, se necessária deve ser quebrada em mais funções, para ser o mais genérico possível
