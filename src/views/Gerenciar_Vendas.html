@@ -14,7 +14,7 @@ session_start();
       content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
     />
     <meta name="generator" content="Jekyll v4.1.1" />
-    <title>Dashboard Template · Bootstrap</title>
+    <title>Gerenciar Vendas</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../views/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -57,13 +57,12 @@ session_start();
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <form action="DashboardController.php" method="GET">
-                <?php
+            <?php
                     echo '<input type="hidden" name="id" value="';
                     echo $_SESSION["user"];
-                    echo '">';
-                ?>
-                <input type="submit" class="nav-link" value="Sair">
-            </form>
+                    echo '">'; ?>
+            <input type="submit" class="nav-link" value="Sair" />
+          </form>
         </li>
       </ul>
     </nav>
@@ -119,37 +118,15 @@ session_start();
               id="addPedido"
               type="button"
               class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
             >
-              Pedido 1
+              Venda 1
             </button>
             <button
               id="addPedido"
               type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
+              class="btn btn-warning btn-lg mt-3"
             >
-              Pedido 2
-            </button>
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Pedido 3
-            </button>
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Pedido 4
+              Cadastrar Venda
             </button>
           </div>
         </main>
