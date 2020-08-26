@@ -1,23 +1,71 @@
 <?php
     session_start();
     require_once("View.php");
-    require_once("../controllers/ProdutoController.php");
+    require_once("../controllers/UsuarioController.php");
 
-    class Cadastrar_Produto extends View {
+    class Gerenciar_Usuarios extends View {
 
         function __construct () {
             $this->needAuth = true;
-            $this->controller = new ProdutoController();
-            $this->name = 'Cadastrar_Produto';
+            $this->controller = new UsuarioController();
+            $this->name = 'Gerenciar_Usuarios';
         }
 
-        function cadastrarProduto ($nome, $descricao, $preco) {
-            $res = $this->controller->createProduto($nome, $descricao, $preco);
+        function deleteUsuario($idUsuario) {
+            $res = $this->controller->deleteUsuario($idUsuario);
             if ($res) {
-                echo "<script>alert('Produto cadastrado!')</script>";
+                echo "<script>alert('Usuario Excluído')</script>";
             } else {
-                echo "<script>alert('Produto não cadastrado!')</script>";
+                echo "<script>alert('Usuario não pode ser excluído')</script>";
             }
+        }
+
+        function promoveUsuario($idUsuario) {
+            $res = $this->controller->promoveUsuario($idUsuario);
+            if ($res) {
+                echo "<script>alert('Usuario promovido')</script>";
+            } else {
+                echo "<script>alert('Usuario não pode ser promovido')</script>";
+            }
+        }
+
+        function getUsuarios () {
+            return $this->controller->getAllUsuarios();
+        }
+
+        function getUsuariosHTML () {
+            $html = "";
+            $Usuarios = $this->getUsuarios();
+            foreach($Usuarios as $Usuario) {
+                $html = $html."
+                <div class=\"dropdown col-lg-6 mt-2\">
+                    <button class=\"btn btn-default dropdown-toggle btn-produto\" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">
+                        Nome : $Usuario->Nome<br>
+                        Email : $Usuario->Email<br>
+                        Endereço : $Usuario->Endereco<br>
+                        CPF : $Usuario->CPF<br>
+                        Telefone : $Usuario->Telefone<br> 
+                        Comissão : $Usuario->Valor_Comissao%<br>
+                        <span class=\"caret\"></span>
+                    </button>
+                    <ul class=\"dropdown-menu\" style=\"color:#ffefc7\" aria-labelledby=\"dropdownMenu1\">
+                        <li>
+                            <form action=\"Gerenciar_Usuarios.php\" method=\"POST\">
+                                <input type=\"hidden\" name=\"idDelete\" value=\"$Usuario->idUsuario\">
+                                <input style=\"border: 0; background: transparent;\" class=\"drop-edit\" type=\"submit\" value=\"Excluir\">
+                            </form>";
+                if (!$Usuario->Admin) {
+                    $html = $html."<form action=\"Gerenciar_Usuarios.php\" method=\"POST\">
+                                <input type=\"hidden\" name=\"idPromove\" value=\"$Usuario->idUsuario\">
+                                <input style=\"border: 0; background: transparent;\" class=\"drop-edit\" type=\"submit\" value=\"Promover a admin\">
+                            </form>";
+                }
+                $html = $html."
+                    </ul>
+                </div>
+                ";
+            }
+            return $html;
         }
 
         function output () {
@@ -52,7 +100,7 @@
                             }
                         </style>
                         <!-- Custom styles for this template -->
-                        <link href=\"../views/css/cadastrarProduto.css\" rel=\"stylesheet\" />
+                        <link href=\"../views/css/gerenciarUsuarios.css\" rel=\"stylesheet\" />
                     </head>
                     <body>
                         <nav class=\"navbar sticky-top bg-dark flex-md-nowrap p-0 shadow\">
@@ -95,7 +143,7 @@
                                                 </a>
                                             </li>
                                             <li class=\"nav-item\">
-                                                <a class=\"nav-link active pt-3 pb-3\" href=\"./Cadastrar_Produto.php\">
+                                                <a class=\"nav-link pt-3 pb-3\" href=\"./Cadastrar_Produto.php\">
                                                     <span data-feather=\"plus-circle\"></span>
                                                     Cadastrar Produto
                                                 </a>
@@ -117,9 +165,14 @@
                                                 <span data-feather=\"edit\"></span>
                                                 Gerenciar Vendas
                                                 </a>
-                                            </li>".
-                                            $this->adminOption()
-                                        ."</ul>
+                                            </li>
+                                            <li class=\"nav-item\">
+                                                <a class=\"nav-link active pt-3 pb-3\" href=\"./Gerenciar_Usuarios.php\">
+                                                <span data-feather=\"coffee\"></span>
+                                                Gerenciar Usuarios
+                                                </a>
+                                            </li>
+                                        </ul>
                                         <div class=\"rodape pt-2 pb-2 d-flex justify-content-center\">
                                             Desenvolvido por JVM
                                         </div>
@@ -127,28 +180,13 @@
                                 </nav>
                                 <main role=\"main\" class=\"main col-md-9 ml-sm-auto col-lg-10 px-md-4\">
                                     <div class=\"pt-3 pb-2 mb-3 d-flex flex-column\">
-                                        <h1 class=\"welcome mb-3\">Cadastrar Novo Produto</h1>
-                                        <form action=\"Cadastrar_Produto.php\" method=\"POST\">
-                                            <div class=\"form-group col-lg-5\" style=\"padding-left:0px;\">
-                                                <label class=\"label-cafe\" for=\"nomeProduto\">Nome do Produto</label>
-                                                <input name=\"nomeProduto\" class=\"form-control\" placeholder=\"Nome do Produto\" type=\"text\">
-                                            </div> <!-- form-group// -->
-                                            <div class=\"form-group col-lg-5\" style=\"padding-left:0px;\">
-                                                <label class=\"label-cafe\" for=\"descricaoProduto\">Descrição do Produto</label>
-                                                <input name=\"descricaoProduto\" class=\"form-control\" placeholder=\"Descrição\" type=\"text\">
-                                            </div> <!-- form-group// -->
-                                            <div class=\"form-group col-lg-5\" style=\"padding-left:0px;\">
-                                                <label class=\"label-cafe\"  for=\"precoProduto\">Preço do Produto</label>
-                                                <input name=\"precoProduto\" class=\"form-control\" placeholder=\"Preço\" type=\"money\">
-                                            </div> <!-- form-group// --> 
-                                            <input
-                                                type=\"submit\"
-                                                class=\"btn btn-warning btn-lg btn-novo-pedido mt-3\"
-                                                data-toggle=\"modal\"
-                                                data-target=\"#myModal\"
-                                                value=\"Cadastrar Produto\"
-                                            >
-                                        </form>
+                                        <h1 class=\"welcome mb-3\">Gerenciar Usuários</h1>
+
+                                        <div class=\"row\">".
+                                        $this->getUsuariosHTML()
+                                        ."</div>
+                                    </div>
+
                                     </div>
                                 </main>
                             </div>
@@ -175,7 +213,6 @@
                             }
                         </script>
                         <script src=\"../views/assets/dist/js/bootstrap.bundle.min.js\"></script>
-                        <script type=\"text/javascript\" src=\"../views/js/bootstrap.min.js\"></script>
                         <script src=\"https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js\"></script>
                         <script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js\"></script>
                         <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>
@@ -186,7 +223,13 @@
         }
     }
 
-    $view = new Cadastrar_Produto();
+    $view = new Gerenciar_Usuarios();
+
+    function console_log( $data ){
+        echo '<script>';
+        echo 'console.log('. json_encode( $data ) .')';
+        echo '</script>';
+      }
 
     // Aqui testamos os POST e GETS da página renderizada
 
@@ -194,8 +237,14 @@
         $view->sair();
     }
 
-    if(isset($_POST['nomeProduto'])) {
-        $view->cadastrarProduto($_POST["nomeProduto"], $_POST["descricaoProduto"], $_POST["precoProduto"]);
+    console_log($_POST);
+
+    if(isset($_POST['idDelete'])) {
+        $view->deleteUsuario($_POST['idDelete']);
+    }
+
+    if(isset($_POST['idPromove'])) {
+        $view->promoveUsuario($_POST['idPromove']);
     }
 
     // Aqui renderizamos a página
