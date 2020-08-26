@@ -61,7 +61,7 @@ class UsuarioDAO extends Database_Connect{
     private function fetchData($dataArray) {
         $res = array();
         foreach($dataArray as $usuario) {
-            $data = new Usuario($usuario[idUsuario], $usuario[CPF], $usuario[Nome], $usuario[Telefone], $usuario[Endereco], $usuario[Email], $usuario[Admin], $usuario[Qtd_Vendas], $usuario[Valor_Comissao], $usuario[senha]);
+            $data = new Usuario($usuario["idUsuario"], $usuario["CPF"], $usuario["Nome"], $usuario["Telefone"], $usuario["Endereco"], $usuario["Email"], $usuario["Admin"], $usuario["Qtd_Vendas"], $usuario["Valor_Comissao"], $usuario["senha"]);
             array_push($res, $data);
         }
         return $res;

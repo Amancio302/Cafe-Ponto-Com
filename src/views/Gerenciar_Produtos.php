@@ -1,5 +1,8 @@
 <?php
-    session_start();
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
     require_once("View.php");
     require_once("../controllers/ProdutoController.php");
 
@@ -104,7 +107,7 @@
                         </button>
                         <ul class=\"navbar-nav px-3\">
                             <li class=\"nav-item text-nowrap\">
-                                <form action=\"Cadastrar_Produto.php\" method=\"GET\">
+                                <form action=\"Gerenciar_Produto.php\" method=\"GET\">
                                     <input type=\"hidden\" name=\"sair\" value=\"true\">
                                     <input type=\"submit\" class=\"nav-link\" style=\"border: 0; background: transparent\" value=\"Sair\">
                                 </form>
@@ -218,11 +221,11 @@
         $view->sair();
     }
 
-    if($_POST['deleteId'] != null) {
+    if(isset($_POST['deleteId'])) {
         $view->deleteProduto($_POST['deleteId']);
     }
 
-    if($_GET['cadastrar'] != null) {
+    if(isset($_GET['cadastrar'])) {
         $view->redirect("Cadastrar_Produto");
     }
 

@@ -8,8 +8,8 @@ class VendaDAO extends Database_Connect{
 
     public function createVenda($idUsuario) {
         $connection = $this->connect();
-        $data = "($idUsuario, 0)";
-        $sql = "INSERT INTO Venda (idUsuario, Concluida) VALUES $data";
+        $data = "($idUsuario, 0, 0, 0, 0)";
+        $sql = "INSERT INTO Venda (idUsuario, Valor_Total, Valor_Pago, Tipo_Transacao, Concluida) VALUES $data";
         $connection->query($sql);
         $idVenda = mysqli_insert_id($connection);
         mysqli_close($connection);
@@ -23,7 +23,8 @@ class VendaDAO extends Database_Connect{
         $sql = "SELECT * FROM Venda WHERE idVenda = $idVenda";
         $result = $connection->query($sql);
         mysqli_close($connection);
-        return $this->fetchData($result)[0];
+        $res = $this->fetchData($result)[0];
+        return $res;
     }
 
     public function getAllVendas() {
@@ -62,7 +63,7 @@ class VendaDAO extends Database_Connect{
         foreach($dataArray as $Venda) {
             $Usuario = new UsuarioDAO();
             $usuario = $Usuario->getOneUsuario($Venda[idUsuario]);
-            $data = new Venda($Venda[idVenda], $usuario, $Venda[Valor_Total], $Venda[Valor_Pago], $Venda[Tipo_Transacao], $Venda[Concluida]);
+            $data = new Venda($Venda["idVenda"], $usuario, $Venda["Valor_Total"], $Venda["Valor_Pago"], $Venda["Tipo_Transacao"], $Venda["Concluida"]);
             array_push($res, $data);
         }
         return $res;

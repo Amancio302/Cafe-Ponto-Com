@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `cafepontocom`.`Venda` (
   `Valor_Total` FLOAT NOT NULL,
   `Valor_Pago` INT NOT NULL,
   `Tipo_Transacao` INT NOT NULL,
-  `Concluída` TINYINT(1) NULL,
+  `Concluida` TINYINT(1) NULL,
   PRIMARY KEY (`idVenda`),
   INDEX `fk_Venda_Usuario1_idx` (`idUsuario` ASC),
   CONSTRAINT `fk_Venda_Usuario1`
@@ -84,7 +84,7 @@ ENGINE = InnoDB;
 -- Table `cafepontocom`.`Pedido`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cafepontocom`.`Pedido` (
-  `idPedido` INT NOT NULL,
+  `idPedido` INT NOT NULL AUTO_INCREMENT,
   `idVenda` INT NOT NULL,
   `idProduto` INT NOT NULL,
   `qtdProduto` INT NOT NULL,
