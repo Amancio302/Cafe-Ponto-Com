@@ -57,13 +57,12 @@ session_start();
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <form action="DashboardController.php" method="GET">
-                <?php
+            <?php
                     echo '<input type="hidden" name="id" value="';
                     echo $_SESSION["user"];
-                    echo '">';
-                ?>
-                <input type="submit" class="nav-link" value="Sair">
-            </form>
+                    echo '">'; ?>
+            <input type="submit" class="nav-link" value="Sair" />
+          </form>
         </li>
       </ul>
     </nav>
@@ -113,44 +112,93 @@ session_start();
           </div>
         </nav>
         <main role="main" class="main col-md-9 ml-sm-auto col-lg-10 px-md-4">
-          <h1 class="welcome mt-3 mb-3">Gerenciar Vendas</h1>
+          <h1 class="welcome mt-3 mb-3">Gerenciar Venda</h1>
           <div class="pt-3 pb-2 mb-3 d-flex flex-rows">
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Pedido 1
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button
+                  type="button"
+                  class="btn btn-warning dropdown-item"
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                >
+                  Editar
+                </button>
+                <a class="dropdown-item" href="#">Excluir</a>
+              </div>
+            </div>
+
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
             >
-              Pedido 1
-            </button>
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Pedido 2
-            </button>
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Pedido 3
-            </button>
-            <button
-              id="addPedido"
-              type="button"
-              class="btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              Pedido 4
-            </button>
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Editar pedido
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"
+                          >Nome do produto:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="recipient-name"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"
+                          >Quantidade:</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="recipient-name"
+                        ></input>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Descartar
+                    </button>
+                    <button type="button" class="btn btn-warning">
+                      Salvar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>
