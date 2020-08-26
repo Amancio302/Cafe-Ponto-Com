@@ -221,11 +221,11 @@
         $view->sair();
     }
 
-    if($_POST['deleteId'] != null) {
+    if(isset($_POST['deleteId'])) {
         $view->deleteProduto($_POST['deleteId']);
     }
 
-    if($_GET['cadastrar'] != null) {
+    if(isset($_GET['cadastrar'])) {
         $view->redirect("Cadastrar_Produto");
     }
 

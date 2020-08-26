@@ -63,7 +63,7 @@ class VendaDAO extends Database_Connect{
         foreach($dataArray as $Venda) {
             $Usuario = new UsuarioDAO();
             $usuario = $Usuario->getOneUsuario($Venda[idUsuario]);
-            $data = new Venda($Venda[idVenda], $usuario, $Venda[Valor_Total], $Venda[Valor_Pago], $Venda[Tipo_Transacao], $Venda[Concluida]);
+            $data = new Venda($Venda["idVenda"], $usuario, $Venda["Valor_Total"], $Venda["Valor_Pago"], $Venda["Tipo_Transacao"], $Venda["Concluida"]);
             array_push($res, $data);
         }
         return $res;

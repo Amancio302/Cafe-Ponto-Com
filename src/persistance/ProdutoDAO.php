@@ -60,7 +60,7 @@ class ProdutoDAO extends Database_Connect{
         foreach($dataArray as $Produto) {
             $Usuario = new UsuarioDAO();
             $usuario = $Usuario->getOneUsuario($Produto[addedBy]);
-            $data = new Produto($Produto[idProduto], $Produto[Nome],  $Produto[Descricao], $Produto[Preco], $Produto[Quantidade], $usuario);
+            $data = new Produto($Produto["idProduto"], $Produto["Nome"],  $Produto["Descricao"], $Produto["Preco"], $Produto["Quantidade"], $usuario);
             array_push($res, $data);
         }
         return $res;
