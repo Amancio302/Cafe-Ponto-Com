@@ -9,7 +9,6 @@ class ProdutoDAO extends Database_Connect{
         $connection = $this->connect();
         $data = "(\"$Nome\", \"$Descricao\", $Preco, $Quantidade, $addedBy)";
         $sql = "INSERT INTO Produto (Nome, Descricao, Preco, Quantidade, addedBy) VALUES $data";
-        console_log($sql);
         $connection->query($sql);
         $idProduto = mysqli_insert_id($connection);
         mysqli_close($connection);
@@ -61,7 +60,7 @@ class ProdutoDAO extends Database_Connect{
         foreach($dataArray as $Produto) {
             $Usuario = new UsuarioDAO();
             $usuario = $Usuario->getOneUsuario($Produto[addedBy]);
-            $data = new Produto($Produto[idProduto], $Produto[Nome],  $Produto[Descricao], $Produto[Preco], $Produto[Quantidade], $usuario);
+            $data = new Produto($Produto["idProduto"], $Produto["Nome"],  $Produto["Descricao"], $Produto["Preco"], $Produto["Quantidade"], $usuario);
             array_push($res, $data);
         }
         return $res;

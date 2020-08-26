@@ -1,4 +1,5 @@
 <?php
+
 require_once("Database_Connect.php");
 require_once("../models/Usuario.php");
 
@@ -19,7 +20,8 @@ class UsuarioDAO extends Database_Connect{
         $connection->query($sql);
         $idUsuario = mysqli_insert_id($connection);
         mysqli_close($connection);
-        return new Usuario($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao);
+        $user = new Usuario($idUsuario, $CPF, $Nome, $Telefone, $Endereco, $Email, $Admin, $Qtd_Vendas, $Valor_Comissao, $senha);
+        return $user;
     }
 
     public function getOneUsuario($idUsuario) {
@@ -51,15 +53,15 @@ class UsuarioDAO extends Database_Connect{
         $deleted = $this->getOneUsuario($idUsuario);
         $connection = $this->connect();
         $sql = "DELETE FROM Usuario WHERE idUsuario = $idUsuario";
-        mysqli_query($connection, $sql);
+        $res = $connection->query($sql);
         mysqli_close($connection);
-        return $deleted;
+        return $res ? $deleted : false;
     }
 
     private function fetchData($dataArray) {
         $res = array();
         foreach($dataArray as $usuario) {
-            $data = new Usuario($usuario[idUsuario], $usuario[CPF], $usuario[Nome], $usuario[Telefone], $usuario[Endereco], $usuario[Email], $usuario[Admin], $usuario[Qtd_Vendas], $usuario[Valor_Comissao], $usuario[senha]);
+            $data = new Usuario($usuario["idUsuario"], $usuario["CPF"], $usuario["Nome"], $usuario["Telefone"], $usuario["Endereco"], $usuario["Email"], $usuario["Admin"], $usuario["Qtd_Vendas"], $usuario["Valor_Comissao"], $usuario["senha"]);
             array_push($res, $data);
         }
         return $res;
