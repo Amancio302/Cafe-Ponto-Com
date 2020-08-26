@@ -38,7 +38,7 @@ class ProdutoDAO extends Database_Connect{
         $idUsuario = $ProdutoData->addedBy->idUsuario;
         $data = "Nome = \"$ProdutoData->Nome\", Descricao = \"$ProdutoData->Descricao\", Preco = $ProdutoData->Preco, Quantidade = $ProdutoData->Quantidade, addedBy = $idUsuario";
         $sql = "UPDATE Produto SET $data WHERE idProduto = $idProduto";
-        $res = mysqli_query($connection, $sql);
+        $res = $connection->query($sql);
         mysqli_close($connection);
         return $this->getOneProduto($idProduto);
     }
@@ -47,9 +47,12 @@ class ProdutoDAO extends Database_Connect{
         $deleted = $this->getOneProduto($idProduto);
         $connection = $this->connect();
         $sql = "DELETE FROM Produto WHERE idProduto = $idProduto";
-        mysqli_query($connection, $sql);
+        $res = $connection->query($sql);
         mysqli_close($connection);
-        return $deleted;
+        if ($res)
+            return $deleted;
+        else
+            return false;
     }
 
     private function fetchData($dataArray) {
@@ -57,7 +60,7 @@ class ProdutoDAO extends Database_Connect{
         foreach($dataArray as $Produto) {
             $Usuario = new UsuarioDAO();
             $usuario = $Usuario->getOneUsuario($Produto[addedBy]);
-            $data = new Produto($Produto[idProduto], $Produto[Nome],  $Produto[Descricao], $Produto[Preco], $Produto[Quantidade], $usuario);
+            $data = new Produto($Produto["idProduto"], $Produto["Nome"],  $Produto["Descricao"], $Produto["Preco"], $Produto["Quantidade"], $usuario);
             array_push($res, $data);
         }
         return $res;

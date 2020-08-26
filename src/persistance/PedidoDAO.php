@@ -71,7 +71,7 @@ class PedidoDAO extends Database_Connect{
             $venda = $Venda->getOneVenda($Pedido[idVenda]);
             $Produto = new ProdutoDAO();
             $produto = $Produto->getOneProduto($Pedido[idProduto]);
-            $data = new Pedido($Pedido[idPedido], $venda,  $produto, $Pedido[qtdProduto]);
+            $data = new Pedido($Pedido["idPedido"], $venda,  $produto, $Pedido["qtdProduto"]);
             array_push($res, $data);
         }
         return $res;
