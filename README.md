@@ -7,7 +7,7 @@ Victor Gustavo Cabral Rodrigues
 Matheus Amâncio Ferreira
 ## Descrição
 Sistema web para gerenciamento interno da cafeteria CafePontoCom.
-O sistema será responsável por cadastrar e gerenciar produtos e atendente, alm de gerar e gerenciar vendas.
+O sistema será responsável por cadastrar e gerenciar produtos e atendente, alm de gerar e Gerenciar Vendas.
 Os tipos de usuário serão: Atendentes e Gerentes. 
 ## Tecnologias Empregadas
 ### Linguagens
@@ -20,7 +20,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
 #### Estilização
     CSS - Versão: 3.0
 ### Banco de Dados
-	phpMyAdmin - Versão: 5.0.2
+	MySQL - Versão: 8.0.20
 ### Servidor WEB
 	Apache2 - Versão: 2.4.43
 ## Padrões de Uso
@@ -38,7 +38,7 @@ Os tipos de usuário serão: Atendentes e Gerentes.
     Para cada nova issue, uma branch deverá ser criada, sendo o nome da branch igual ao número e nome da issue. Essas branches deverão ser criadas a partir da branch "development"
 ### Hierarquia de diretórios
 #### Documentação
-    Toda a documentação do projeto estará nas pastas "Padrões de Projeto" e "Requisitos"
+    Toda a documentação do projeto estará nas pastas "Padrões Adotados" e "Requisitos"
 #### Código
     Todo o código estará contido na pasta "src"
 ##### Assets
@@ -51,5 +51,11 @@ Os tipos de usuário serão: Atendentes e Gerentes.
     Controladores do sistema, agindo como intermediadores entre as views e o resto do sistema
 ##### Views
     Todos os arquivos de visualização
-### Padrão de codificação
-    Será adotado o padrão SOLID
+### Padrões de codificação
+    * Toda View deve ser um Arquivo PHP que extende um a classe View.php
+    * Todo Controller deve ser um Arquivo PHP que extende a classe Controller.php
+    * Todas as classes devem implementar uma e somente uma finalidade
+    * Todo Acesso aos bancos de dados devem ser feitos por Persistence
+    * Todo Arquivo Persistence deve ser nomeado com qual a tabela do Banco de Dados que ela acessa e ao final do nome, colocar "DAO"
+    * Todo Persistence deve ser um arquivo PHP e extender a classe Database_Connect.php
+    * Cada Função deve executar, assim como a classe, apenas uma funcionalidade, se necessária deve ser quebrada em mais funções, para ser o mais genérico possível
