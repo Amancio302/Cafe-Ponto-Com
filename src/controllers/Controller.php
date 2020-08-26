@@ -1,12 +1,15 @@
 <?php
-    session_start();
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
 
     abstract class Controller {
 
         protected $persistance;
 
-        function redirect ($view) {
-            header("Location: ./$view.php");
+        function redirect ($view, $query = "") {
+            header("Location: ./$view.php?$query");
         }
 
     }

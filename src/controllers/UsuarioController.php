@@ -1,5 +1,8 @@
 <?php
-    session_start();
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
     require_once("Controller.php");
     require_once("../persistance/UsuarioDAO.php");
 
@@ -48,7 +51,7 @@
         }
 
         function deleteusuario ($idUsuario) {
-            return !!$this->persistance->deleteusuario($idUsuario);
+            return !!$this->persistance->deleteUsuario($idUsuario);
         }
     }
 ?>

@@ -1,5 +1,8 @@
 <?php
-    session_start();
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
 
     abstract class View {
 
@@ -7,8 +10,8 @@
         protected $needAuth;
         protected $name;
 
-        public function redirect ($view) {
-            $this->controller->redirect($view);
+        public function redirect ($view, $query = "") {
+            $this->controller->redirect($view, $query);
         }
 
         public function render () {
