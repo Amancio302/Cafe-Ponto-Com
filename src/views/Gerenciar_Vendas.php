@@ -6,94 +6,50 @@
     require_once("View.php");
     require_once("../controllers/VendaController.php");
 
-    class Gerenciar_Venda extends View {
+    class Gerenciar_Vendas extends View {
 
         function __construct () {
             $this->needAuth = true;
             $this->controller = new VendaController();
-            $this->name = 'Gerenciar_Venda';
+            $this->name = 'Gerenciar_Vendas';
         }
 
-        function getVenda () {
-            $res =  $this->controller->getVenda($_GET["idVenda"]);
-            return $res;
-        }
-
-        function deletarPedido ($idPedido) {
-            echo 1;
-            $res = $this->controller->deletarPedido($idPedido);
-            if ($res) {
-                echo "<script>alert('Pedido Excluido');</script>";
-            } else {
-                echo "<script>alert('Pedido nao pode ser excluido');</script>";
-            }
-            $this->redirect("Gerenciar_Venda", "idVenda=".$_GET["idVenda"]);
-        }
-
-        function cadastrarPedido ($idProduto, $qtd) {
-            $res = $this->controller->createPedido($_GET["idVenda"], $idProduto, $qtd);
-            if ($res) {
-                echo "<script>alert('Pedido Cadastrado');</script>";
-            } else {
-                echo "<script>alert('Pedido não pode ser cadastrado');</script>";
-            }
-        }
-
-        function getProdutos () {
-            $res =  $this->controller->getProdutos();
-            return $res;
-        }
-
-        function getPedidos () {
-            $res =  $this->controller->getPedidos($_GET["idVenda"]);
-            return $res;
-        }
-        function getProdutosHTML () {
-            $Produtos = $this->getProdutos();
-            $html = "";
-            foreach($Produtos as $produto) {
-                $html = $html."
-                <option value=\"$produto->idProduto\">$produto->Nome</option>
-                ";
-            }
-            return $html;
+        function cadastrarVenda () {
+            $res = $this->controller->createVenda();
+            $this->redirect("./Gerenciar_Venda", "idVenda=$res");
         }
         
-        function getPedidosHTMl () {
-            $Pedidos = $this->getPedidos();
+        function getVendas () {
+            return $this->controller->getAllVendas();
+        }
+
+        function  getVendasHTML () {
             $html = "";
-            foreach($Pedidos as $Pedido) {
-                $produto = $Pedido->Produto;
-                $html = $html . "
-                        <div class=\"dropdown\">
-                            <button
-                                class=\"btn btn-secondary dropdown-toggle\"
-                                type=\"button\"
-                                id=\"dropdownMenuButton\"
-                                data-toggle=\"dropdown\"
-                                aria-haspopup=\"true\"
-                                aria-expanded=\"false\"
-                            >
-                                $produto->Nome: $Pedido->qtdProduto unidades
-                            </button>
-                            <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                <a href=\"./Editar_Pedido.php?idPedido=$Pedido->idPedido\">
-                                <button
-                                    type=\"button\"
-                                    class=\"btn btn-warning dropdown-item\"
-                                >
-                                    Editar
-                                </button>
-                            <a class=\"dropdown-item\" href=\"./Gerenciar_Venda.php?idVenda=". $_GET["idVenda"] . "&delete=$Pedido->idPedido\">Excluir</a>
-                            </div>
-                        </div>
+            $Vendas = $this->getVendas();
+            foreach($Vendas as $Venda) {
+                $Usuario = $Venda->Usuario;
+                $html = $html."
+                
+                    <a href=\"./Gerenciar_Venda.php?idVenda=$Venda->idVenda\">
+                    <button
+                        id=\"addPedido\"
+                        type=\"button\"
+                        class=\"btn btn-warning btn-lg btn-novo-pedido mt-3 ml-2 mr-2 flex-6\"
+                    >
+                        $Usuario->Nome<br>
+                        R$$Venda->Valor_Total<br>
+                        R$$Venda->Valor_Pago<br>";
+                if ($Venda->Concluida)
+                    $html = $html . "Concluída";
+                else
+                $html = $html . "Não concluída";
+                $html = $html ."</button>
                 ";
             }
             return $html;
         }
 
         function output () {
-            $venda = $this->getVenda();
             return "
                 <html lang=\"en\">
                     <head>
@@ -108,7 +64,7 @@
                         content=\"Mark Otto, Jacob Thornton, and Bootstrap contributors\"
                     />
                     <meta name=\"generator\" content=\"Jekyll v4.1.1\" />
-                    <title>Dashboard Template · Bootstrap</title>
+                    <title>Gerenciar Vendas</title>
                 
                     <!-- Bootstrap core CSS -->
                     <link href=\"../views/assets/dist/css/bootstrap.min.css\" rel=\"stylesheet\" />
@@ -150,7 +106,7 @@
                     </button>
                     <ul class=\"navbar-nav px-3\">
                         <li class=\"nav-item text-nowrap\">
-                            <form action=\"Gerenciar_Venda.php\" method=\"GET\">
+                            <form action=\"Gerenciar_Vendas.php\" method=\"GET\">
                                 <input type=\"hidden\" name=\"sair\" value=\"true\">
                                 <input type=\"submit\" class=\"nav-link\" style=\"border: 0; background: transparent\" value=\"Sair\">
                             </form>
@@ -186,7 +142,7 @@
                                     <li class=\"nav-item\">
                                         <a class=\"nav-link active pt-3 pb-3\" href=\"./Gerenciar_Vendas.php\">
                                         <span data-feather=\"plus-circle\"></span>
-                                        Cadastrar Venda
+                                        Gerenciar Vendas
                                         </a>
                                     </li>".
                                     $this->adminOption()
@@ -197,77 +153,21 @@
                             </div>
                         </nav>
                         <main role=\"main\" class=\"main col-md-9 ml-sm-auto col-lg-10 px-md-4\">
-                            <h1 class=\"welcome mt-3 mb-3\">Gerenciar Venda</h1>
-                            <button
-                                type=\"button\"
-                                class=\"btn mt-5 btn-warning flex-columns\"
-                                data-toggle=\"modal\"
-                                data-target=\"#exampleModal1\"
-                                style=\"width: 250px;\"
-                                >
-                                Adicionar Pedido
-                                </button>
-                                <div
-                            class=\"modal fade\"
-                            id=\"exampleModal1\"
-                            tabindex=\"-1\"
-                            aria-labelledby=\"exampleModalLabel1\"
-                            aria-hidden=\"true\"
-                            >
-                            <div class=\"modal-dialog\">
-                                <div class=\"modal-content\">
-                                <div class=\"modal-header\">
-                                    <h5 class=\"modal-title\" id=\"exampleModalLabel1\">
-                                    Novo pedido
-                                    </h5>
+                                <h1 class=\"welcome mt-3 mb-3\">Gerenciar Vendas</h1>
+                                <a href=\"./Gerenciar_Vendas.php?create=true\" class=\"mt-3 mb-3\">
                                     <button
-                                    type=\"button\"
-                                    class=\"close\"
-                                    data-dismiss=\"modal\"
-                                    aria-label=\"Close\"
+                                        id=\"addPedido\"
+                                        type=\"button\"
+                                        class=\"btn btn-warning btn-lg mt-3\"
                                     >
-                                    <span aria-hidden=\"true\">&times;</span>
+                                        Cadastrar Venda
                                     </button>
-                                </div>
-                                <div class=\"modal-body\">
-                                    <form action=\"./Gerenciar_Venda.php?idVenda=". $_GET["idVenda"] ."\" method=\"POST\">
-                                    <div class=\"form-group\">
-                                        <label for=\"recipient-name\" class=\"col-form-label\"
-                                        >Nome do produto:</label
-                                        >
-                                        <select name=\"idProduto\" id=\"idProduto\" class=\"form-control\"
-                                        id=\"recipient-name\">".
-                                            $this->getProdutosHTML()
-                                        ."</select>
-                                    </div>
-                                    <div class=\"form-group\">
-                                        <label for=\"recipient-name\" class=\"col-form-label\"
-                                        >Quantidade:</label
-                                        >
-                                        <input
-                                        type=\"number\"
-                                        name=\"qtdProduto\"
-                                        class=\"form-control\"
-                                        id=\"recipient-name\"
-                                        ></input>
-                                    </div>
-                                    <button
-                                    type=\"button\"
-                                    class=\"btn btn-secondary\"
-                                    data-dismiss=\"modal\"
-                                    >
-                                    Descartar
-                                    </button>
-                                    <input type=\"submit\" class=\"btn btn-warning\" value=\"Salvar\">
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                            <div class=\"pt-3 pb-2 mb-3 d-flex flex-rows\">
-                            <div class=\"row\">".
-                              $this->getPedidosHTML()  
-                            ."</div>
+                                </a>
+                                <div class=\"pt-3 pb-2 mb-3 d-flex flex-rows\">
+                                <div class=\"row\">
+                                ".
+                                    $this->getVendasHTML()
+                                ."</div>
                             </div>
                         </main>
                         </div>
@@ -299,12 +199,12 @@
                     <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>
                     <script src=\"../views/js/dashboard.js\"></script>
                     </body>
-                </html>          
+                </html>       
             ";
         }
     }
 
-    $view = new Gerenciar_Venda();
+    $view = new Gerenciar_Vendas();
 
     // Aqui testamos os POST e GETS da página renderizada
 
@@ -312,17 +212,11 @@
         $view->sair();
     }
 
-    if (isset($_POST["idProduto"])) {
-        $view->cadastrarPedido($_POST["idProduto"], $_POST["qtdProduto"]);
+    if ($_GET["create"]) {
+        $view->cadastrarVenda();
     }
 
-    if (isset($_GET["idVenda"])) {
-        if (isset($_GET["delete"])) {
-            $view->deletarPedido($_GET["delete"]);
-        }
-        $view->render();
-    }
+    // Aqui renderizamos a página
 
-    $view->redirect("./Gerenciar_Vendas");
-
+    $view->render();
 ?>
