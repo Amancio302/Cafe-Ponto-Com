@@ -141,7 +141,7 @@
                                     </li>
                                     <li class=\"nav-item\">
                                         <a class=\"nav-link active pt-3 pb-3\" href=\"./Gerenciar_Vendas.php\">
-                                        <span data-feather=\"plus-circle\"></span>
+                                        <span data-feather=\"edit\"></span>
                                         Gerenciar Vendas
                                         </a>
                                     </li>".

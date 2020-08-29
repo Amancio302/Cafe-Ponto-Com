@@ -6,72 +6,56 @@
     require_once("View.php");
     require_once("../controllers/ProdutoController.php");
 
-    class Gerenciar_Produtos extends View {
+    class Editar_Produto extends View {
         
         function __construct () {
             $this->needAuth = true;
             $this->controller = new ProdutoController();
-            $this->name = 'Gerenciar_Produtos';
+            $this->name = 'Editar_Produto';
             $this->editId = null;
         }
 
-        function deleteProduto($idProduto) {
-            $res = $this->controller->deleteProduto($idProduto);
-            if ($res) {
-                echo "<script>alert('Produto Excluído')</script>";
-            } else {
-                echo "<script>alert('Produto não pode ser excluído')</script>";
-            }
+        function getProduto ($idProduto) {
+            return $this->controller->getOneProduto($idProduto);
         }
 
-        function editarProduto ($idProduto, $Nome, $Descricao, $Preco, $Quantidade, $addedBy) {
-            $res = $this->controller->editarProduto($idProduto, $Nome, $Descricao, $Preco, $Quantidade, $addedBy);
-            if ($res) {
-                echo "<script>alert('Produto modificado')</script>";
-            } else {
-                echo "<script>alert('Produto não pode ser modificado')</script>";
-            }
-        }
-
-        function getProdutos () {
-            return $this->controller->getAllProdutos();
-        }
-
-        function getProdutosHTML () {
-            $html = "";
-            $produtos = $this->getProdutos();
-            foreach($produtos as $produto) {
-                $html = $html."
-                    <div class=\"dropdown col-lg-6 mt-2\">
-                        <button class=\"btn btn-default dropdown-toggle btn-produto\" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">
-                            <span class=\"caret\">$produto->Nome</span>
-                            <br>
-                            <span class=\"caret\">Quantidade: $produto->Quantidade</span>
-                        </button>
-                        <ul class=\"dropdown-menu\" style=\"color:#ffefc7\" aria-labelledby=\"dropdownMenu1\">
-                            <li>
-                                <a href=\"Gerenciar_Produtos.php?deleteId=$produto->idProduto\">
-                                    <btn
-                                        class=\"drop-edit\" style=\"border: 0; background: transparent;\"
-                                    >
-                                        Excluir
-                                    </btn>
-                                </a>
-                            </li>
-                            <li>
-                                <a class=\"drop-edit\" href=\"Editar_Produto.php?idProduto=$produto->idProduto\">
-                                    <btn
-                                        class=\"drop-edit\" style=\"border: 0; background: transparent;\"
-                                    >
-                                        Editar
-                                    </btn>        
-                                </a>
-                            </li>
-                        </ul>
+        function editarProdutoHTML () {
+            $produto = $this->getProduto($_GET["idProduto"]);
+            $idUser = $produto->addedBy->idUsuario;
+            return "
+                <form action=\"Gerenciar_Produtos.php\" method=\"POST\">
+                    <input type=\"hidden\" name=\"idProduto\" value=\"$produto->idProduto\">
+                    <input type=\"hidden\" name=\"addedBy\" value=\"$idUser\">
+                    <div class=\"input-group mb-3 ml-2\" style=\"width: 100%\">
+                        <label for=\"recipient-name\" class=\"col-form-label\">
+                            Nome do produto:
+                        </label>
+                        <input type=\"text\" name=\"Nome\" value=\"$produto->Nome\">
                     </div>
-                ";
-            }
-            return $html;
+                    <div class=\"input-group mb-3 ml-2\" style=\"width: 100%\">
+                        <label for=\"recipient-name\" class=\"col-form-label\">
+                            Descrição do produto:
+                        </label>
+                        <input type=\"text\" name=\"Descricao\" value=\"$produto->Descricao\">
+                    </div>
+                    <div class=\"input-group mb-3 ml-2\" style=\"width: 100%\">
+                        <label for=\"recipient-name\" class=\"col-form-label\">
+                            Preço:
+                        </label>
+                        <input type=\"number\" name=\"Preco\" value=\"$produto->Preco\" step=\"0.01\">
+                    </div>
+                    <div class=\"input-group mb-3 ml-2\" style=\"width: 100%\">
+                        <label for=\"recipient-name\" class=\"col-form-label\">
+                            Quantidade:
+                        </label>
+                        <input type=\"number\" name=\"Quantidade\" value=\"$produto->Quantidade\">
+                    </div>
+                    <input type=\"submit\" value=\"Enviar\">
+                    <a href=\"Gerenciar_Produtos.php\">
+                        <button type=\"button\">Cancelar</button>
+                    </a>
+                </form>
+            ";
         }
 
         function output () {
@@ -174,23 +158,9 @@
                             </nav>
                             <main role=\"main\" class=\"main col-md-9 ml-sm-auto col-lg-10 px-md-4\">
                                 <div class=\"pt-3 pb-2 mb-3 d-flex flex-column\">
-                                    <h1 class=\"welcome mb-3\">Gerenciar Produtos</h1>
-                                    <div class=\"row\">".
-                                        $this->getProdutosHTML()
-                                    ."</div>
-                                    <form action=\"Gerenciar_Produtos.php\" method=\"GET\">
-                                        <input type=\"hidden\" name=\"cadastrar\" value=\"true\">
-                                        <input type=\"submit\" value=\"Cadastrar Novo Produto\"
-                                            id=\"addPedido\"
-                                            type=\"button\"
-                                            class=\"btn btn-warning btn-lg btn-novo-pedido mt-3\"
-                                            data-toggle=\"modal\"
-                                            data-target=\"#myModal\"    
-                                        >
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
+                                    <h1 class=\"welcome mb-3\">Editar Produto</h1>".
+                                    $this->editarProdutoHTML()  
+                                ."</div>
                             </main>
                         </div>
                     </div>
@@ -228,24 +198,12 @@
         }
     }
 
-    $view = new Gerenciar_Produtos();
+    $view = new Editar_Produto();
 
     // Aqui testamos os POST e GETS da página renderizada
 
     if (isset($_GET["sair"])) {
         $view->sair();
-    }
-
-    if(isset($_GET['deleteId'])) {
-        $view->deleteProduto($_GET['deleteId']);
-    }
-
-    if(isset($_GET['cadastrar'])) {
-        $view->redirect("Cadastrar_Produto");
-    }
-
-    if(isset($_POST["idProduto"])) {
-        $view->editarProduto($_POST["idProduto"], $_POST["Nome"], $_POST["Descricao"], $_POST["Preco"], $_POST["Quantidade"], $_POST["addedBy"]);
     }
 
     // Aqui renderizamos a página
