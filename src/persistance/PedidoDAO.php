@@ -23,7 +23,7 @@ class PedidoDAO extends Database_Connect{
         $venda = $Venda->getOneVenda($idVenda);
         $Produto = new ProdutoDAO();
         $produto = $Produto->getOneProduto($idProduto);
-        $venda->Valor_Total = $venda->Valor_Total + ($produto->Preco * qtdProduto);
+        $venda->Valor_Total = $venda->Valor_Total + ($produto->Preco * $qtdProduto);
         $Venda->updateVenda($idVenda, $venda);
         // Contrói um objeto Pedido para ser retornado
         return new Pedido($idPedido, $venda, $produto, $qtdProduto);
