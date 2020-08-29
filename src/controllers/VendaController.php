@@ -43,6 +43,14 @@
             return $res;
         }
 
+        function fecharVenda ($idVenda, $transacao, $Valor_Pago) {
+            $venda = $this->persistance->getOneVenda($idVenda);
+            $venda->Concluido = true;
+            $venda->Tipo_Transacao = $transacao;
+            $venda->Valor_Pago = $Valor_Pago;
+            return !!$this->persistance->updateVenda($idVenda, $venda);
+        }
+
         function getVenda ($idVenda) {
             $res = $this->persistance->getOneVenda($idVenda);
             return $res;

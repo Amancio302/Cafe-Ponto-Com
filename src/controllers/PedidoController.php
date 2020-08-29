@@ -36,10 +36,14 @@
             return $Produto->getAllProdutos();
         }
 
-        function editarPedido ($idPedido, $Pedido) {
-            echo "ala";
-            print_r($Pedido);
-            return $this->persistance->updatePedido($idPedido, $Pedido);
+        function editarPedido ($idPedido, $Pedido, $idProduto) {
+            echo 2;
+            $Produto = new ProdutoController();
+            echo 3;
+            $produto = $Produto->getOneProduto($idProduto);
+            echo 4;
+            $Pedido->Produto = $produto;
+            return !!$this->persistance->updatePedido($idPedido, $Pedido);
         }
     }
 ?>
