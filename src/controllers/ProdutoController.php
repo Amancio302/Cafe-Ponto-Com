@@ -22,6 +22,10 @@
             return $this->persistance->getAllProdutos();
         }
 
+        function getOneProduto ($idProduto) {
+            return $this->persistance->getOneProduto($idProduto);
+        }
+
         function deleteProduto ($idProduto) {
             $res = !!$this->persistance->deleteProduto($idProduto);
             return $res;

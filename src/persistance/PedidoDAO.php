@@ -59,7 +59,14 @@ class PedidoDAO extends Database_Connect{
         // Resgata dados pertinentes de PedidoData
         $idVenda = $PedidoData->Venda->idVenda;
         $idProduto = $PedidoData->Produto->idProduto;
-        $precoantigo = $PedidoData->Produto->Preco * $Pedido->qtdProduto;
+        // Atualiza o valor total
+        $Venda = new VendaDAO();
+        $venda = $Venda->getOneVenda($idVenda);
+        $pedidoAntigo = $this->getOnePedido($idPedido);
+        $precoantigo = $pedidoAntigo->Produto->Preco * $pedidoAntigo->qtdProduto;
+        $venda->Valor_Total = $venda->Valor_Total - $precoantigo;
+        $preconovo = $PedidoData->Produto->Preco * $PedidoData->qtdProduto;
+        $venda->Valor_Total = $venda->Valor_Total + $preconovo;
         // Monta o Script Sql
         $data = "idVenda = $idVenda, idProduto = $idProduto, qtdProduto = $PedidoData->qtdProduto";
         $sql = "UPDATE Pedido SET $data WHERE idPedido = $idPedido";
@@ -67,10 +74,7 @@ class PedidoDAO extends Database_Connect{
         $res = $connection->query($sql);
         // Fecha a conexão
         mysqli_close($connection);
-        // Atualiza o valor total da venda relacionada
-        $Venda = new VendaDAO();
-        $venda = $Venda->getOneVenda($idVenda);
-        $venda->Valor_Total = $Venda->Valor_Total - $precoantigo + ($PedidoData->Produto->Preco * $PedidoData->qtdProduto);
+        // Salva o valor total da venda relacionada
         $Venda->updateVenda($idVenda, $venda);
         return $this->getOnePedido($idPedido);
     }
@@ -88,6 +92,7 @@ class PedidoDAO extends Database_Connect{
         $Venda = new VendaDAO();
         $venda = $Venda->getOneVenda($deleted->Venda->idVenda);
         $venda->Valor_Total = $venda->Valor_Total - ($deleted->Produto->Preco * $deleted->qtdProduto);
+        $Venda->updateVenda($venda->idVenda, $venda);
         mysqli_close($connection);
         return $deleted;
     }

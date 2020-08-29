@@ -39,6 +39,16 @@
             }
         }
 
+        function fecharVenda ($transacao, $Valor_Pago) {
+            $res = $this->controller->fecharVenda($_GET["idVenda"], $transacao, $Valor_Pago);
+            if ($res) {
+                echo "<script>alert('Venda fechada');</script>";
+            } else {
+                echo "<script>alert('Ocorreu um erro');</script>";
+            }
+            $this->redirect("Gerenciar_Vendas");
+        }
+
         function getProdutos () {
             $res =  $this->controller->getProdutos();
             return $res;
@@ -198,76 +208,147 @@
                         </nav>
                         <main role=\"main\" class=\"main col-md-9 ml-sm-auto col-lg-10 px-md-4\">
                             <h1 class=\"welcome mt-3 mb-3\">Gerenciar Venda</h1>
+                            <h4>Valor Total: R$".$venda->Valor_Total."</h4>
                             <button
                                 type=\"button\"
                                 class=\"btn mt-5 btn-warning flex-columns\"
                                 data-toggle=\"modal\"
                                 data-target=\"#exampleModal1\"
                                 style=\"width: 250px;\"
-                                >
-                                Adicionar Pedido
-                                </button>
-                                <div
-                            class=\"modal fade\"
-                            id=\"exampleModal1\"
-                            tabindex=\"-1\"
-                            aria-labelledby=\"exampleModalLabel1\"
-                            aria-hidden=\"true\"
                             >
-                            <div class=\"modal-dialog\">
-                                <div class=\"modal-content\">
-                                <div class=\"modal-header\">
-                                    <h5 class=\"modal-title\" id=\"exampleModalLabel1\">
-                                    Novo pedido
-                                    </h5>
-                                    <button
+                                Adicionar Pedido
+                            </button>
+                            <a>
+                                <button
                                     type=\"button\"
-                                    class=\"close\"
-                                    data-dismiss=\"modal\"
-                                    aria-label=\"Close\"
-                                    >
-                                    <span aria-hidden=\"true\">&times;</span>
-                                    </button>
-                                </div>
-                                <div class=\"modal-body\">
-                                    <form action=\"./Gerenciar_Venda.php?idVenda=". $_GET["idVenda"] ."\" method=\"POST\">
-                                    <div class=\"form-group\">
-                                        <label for=\"recipient-name\" class=\"col-form-label\"
-                                        >Nome do produto:</label
-                                        >
-                                        <select name=\"idProduto\" id=\"idProduto\" class=\"form-control\"
-                                        id=\"recipient-name\">".
-                                            $this->getProdutosHTML()
-                                        ."</select>
+                                    class=\"btn mt-5 btn-warning flex-columns\"
+                                    data-toggle=\"modal\"
+                                    data-target=\"#exampleModal2\"
+                                    style=\"width: 250px;\"
+                                >
+                                    Concluir venda
+                                </button>
+                            </a>
+                            <div
+                                class=\"modal fade\"
+                                id=\"exampleModal1\"
+                                tabindex=\"-1\"
+                                aria-labelledby=\"exampleModalLabel1\"
+                                aria-hidden=\"true\"
+                            >
+                                <div class=\"modal-dialog\">
+                                    <div class=\"modal-content\">
+                                        <div class=\"modal-header\">
+                                            <h5 class=\"modal-title\" id=\"exampleModalLabel1\">
+                                                Novo pedido
+                                            </h5>
+                                            <button
+                                                type=\"button\"
+                                                class=\"close\"
+                                                data-dismiss=\"modal\"
+                                                aria-label=\"Close\"
+                                            >
+                                                <span aria-hidden=\"true\">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class=\"modal-body\">
+                                            <form action=\"./Gerenciar_Venda.php?idVenda=". $_GET["idVenda"] ."\" method=\"POST\">
+                                                <div class=\"form-group\">
+                                                    <label for=\"recipient-name\" class=\"col-form-label\"
+                                                    >Nome do produto:</label
+                                                    >
+                                                    <select name=\"idProduto\" id=\"idProduto\" class=\"form-control\"
+                                                    id=\"recipient-name\">".
+                                                        $this->getProdutosHTML()
+                                                    ."</select>
+                                                </div>
+                                                <div class=\"form-group\">
+                                                    <label for=\"recipient-name\" class=\"col-form-label\"
+                                                    >Quantidade:</label
+                                                    >
+                                                    <input
+                                                    type=\"number\"
+                                                    name=\"qtdProduto\"
+                                                    class=\"form-control\"
+                                                    id=\"recipient-name\"
+                                                    ></input>
+                                                </div>
+                                                <button
+                                                    type=\"button\"
+                                                    class=\"btn btn-secondary\"
+                                                    data-dismiss=\"modal\"
+                                                >
+                                                    Descartar
+                                                </button>
+                                                <input type=\"submit\" class=\"btn btn-warning\" value=\"Salvar\">
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class=\"form-group\">
-                                        <label for=\"recipient-name\" class=\"col-form-label\"
-                                        >Quantidade:</label
-                                        >
-                                        <input
-                                        type=\"number\"
-                                        name=\"qtdProduto\"
-                                        class=\"form-control\"
-                                        id=\"recipient-name\"
-                                        ></input>
-                                    </div>
-                                    <button
-                                    type=\"button\"
-                                    class=\"btn btn-secondary\"
-                                    data-dismiss=\"modal\"
-                                    >
-                                    Descartar
-                                    </button>
-                                    <input type=\"submit\" class=\"btn btn-warning\" value=\"Salvar\">
-                                    </form>
-                                </div>
                                 </div>
                             </div>
+                            <div
+                                class=\"modal fade\"
+                                id=\"exampleModal2\"
+                                tabindex=\"-1\"
+                                aria-labelledby=\"exampleModalLabel1\"
+                                aria-hidden=\"true\"
+                            >
+                                <div class=\"modal-dialog\">
+                                    <div class=\"modal-content\">
+                                        <div class=\"modal-header\">
+                                            <h5 class=\"modal-title\" id=\"exampleModalLabel1\">
+                                                Fechar pedido
+                                            </h5>
+                                            <button
+                                                type=\"button\"
+                                                class=\"close\"
+                                                data-dismiss=\"modal\"
+                                                aria-label=\"Close\"
+                                            >
+                                                <span aria-hidden=\"true\">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class=\"modal-body\">
+                                            <form action=\"./Gerenciar_Venda.php?idVenda=". $_GET["idVenda"] ."\" method=\"POST\">
+                                                <div class=\"form-group\">
+                                                    <label for=\"recipient-name\" class=\"col-form-label\"
+                                                    >Valor Pago</label
+                                                    >
+                                                    <input
+                                                        type=\"number\"
+                                                        name=\"Valor_Pago\"
+                                                        class=\"form-control\"
+                                                        id=\"recipient-name\"
+                                                    >
+                                                </div>
+                                                <div class=\"form-group\">
+                                                    <label for=\"recipient-name\" class=\"col-form-label\"
+                                                    >Quantidade:</label
+                                                    >
+                                                    <select name=\"transacao\" id=\"transacao\" class=\"form-control\"
+                                                    id=\"recipient-name\">
+                                                        <option value=\"1\">Dinheiro</option>
+                                                        <option value=\"2\">Crédito</option>
+                                                        <option value=\"3\">Débito</option>
+                                                    </select>
+                                                </div>
+                                                <button
+                                                    type=\"button\"
+                                                    class=\"btn btn-secondary\"
+                                                    data-dismiss=\"modal\"
+                                                >
+                                                    Descartar
+                                                </button>
+                                                <input type=\"submit\" class=\"btn btn-warning\" value=\"Salvar\">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class=\"pt-3 pb-2 mb-3 d-flex flex-rows\">
-                            <div class=\"row\">".
-                              $this->getPedidosHTML()  
-                            ."</div>
+                                <div class=\"row\">".
+                                $this->getPedidosHTML()."
+                                </div>
                             </div>
                         </main>
                         </div>
@@ -314,6 +395,10 @@
 
     if (isset($_POST["idProduto"])) {
         $view->cadastrarPedido($_POST["idProduto"], $_POST["qtdProduto"]);
+    }
+
+    if (isset($_POST["transacao"])) {
+        $view->fecharVenda($_POST["transacao"], $_POST["Valor_Pago"]);
     }
 
     if (isset($_GET["idVenda"])) {
