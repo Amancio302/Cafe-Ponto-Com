@@ -43,7 +43,7 @@ class VendaDAO extends Database_Connect{
     public function updateVenda($idVenda, $VendaData) {
         $connection = $this->connect();
         $concluida;
-        if ($VendaData->concluida) {
+        if ($VendaData->Concluido) {
             $concluida = 1;
         } else {
             $concluida = 0;
