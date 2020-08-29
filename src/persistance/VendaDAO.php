@@ -42,9 +42,16 @@ class VendaDAO extends Database_Connect{
 
     public function updateVenda($idVenda, $VendaData) {
         $connection = $this->connect();
-        $data = "idUsuario = $VendaData->idUsuario, Valor_Total = $VendaData->Valor_Total, Valor_Pago = $VendaData->Valor_Pago, Tipo_Transacao = \"$VendaData->Tipo_Transacao\" Concluida = $VendaData->Concluida";
+        $concluida;
+        if ($VendaData->Concluido) {
+            $concluida = 1;
+        } else {
+            $concluida = 0;
+        }
+        $idUsuario = $VendaData->Usuario->idUsuario;
+        $data = "idUsuario = $idUsuario, Valor_Total = $VendaData->Valor_Total, Valor_Pago = $VendaData->Valor_Pago, Tipo_Transacao = $VendaData->Tipo_Transacao, Concluida = $concluida";
         $sql = "UPDATE Venda SET $data WHERE idVenda = $idVenda";
-        $res = mysqli_query($connection, $sql);
+        $connection->query($sql);
         mysqli_close($connection);
         return $this->getOneVenda($idVenda);
     }

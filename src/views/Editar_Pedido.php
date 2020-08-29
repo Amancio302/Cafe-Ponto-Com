@@ -33,8 +33,13 @@
             $Produtos = $this->getProdutos();
             $html = "";
             foreach($Produtos as $produto) {
+                $selected = $this->getOnePedido($_GET["idPedido"]);
                 $html = $html."
-                <option value=\"$produto->idProduto\">$produto->Nome</option>
+                <option value=\"$produto->idProduto\"";
+                if ($produto->idPedido == $selected->Produto->idPedido) {
+                    $html = $html." selected=\"selected\"";
+                }
+                $html = $html.">$produto->Nome</option>
                 ";
             }
             return $html;
@@ -43,9 +48,7 @@
         function editarPedido ($idPedido, $idVenda, $idProduto, $qtd) {
             $Pedido = $this->getOnePedido($idPedido);
             $Pedido->qtdProduto = $qtd;
-            $Pedido->Produto->idProduto = $idProduto;
-            $res = $this->controller->editarPedido($idPedido, $Pedido);
-            echo "BU";
+            $res = $this->controller->editarPedido($idPedido, $Pedido, $idProduto);
             if ($res) {
                 echo "<script>alert('Sucesso')</script>";
             } else {
@@ -60,7 +63,7 @@
             $venda = $Pedido->Venda;
             return "
             <div class=\"pt-3 pb-2 mb-3 d-flex flex-column\">
-                <h1 class=\"welcome mb-3\">Gerenciar Produto</h1>
+                <h1 class=\"welcome mb-3\">Editar Pedido</h1>
 
                 <div class=\"row\">
                     <form method=\"Editar_Pedido.php\" method=\"GET\">
@@ -257,7 +260,6 @@
     }
 
     if (isset($_GET["idVenda"])) {
-        echo 1;
         $view->editarPedido($_GET["idPedido"], $_GET["idVenda"], $_GET["idProduto"], $_GET["qtdProduto"]);
     }
 

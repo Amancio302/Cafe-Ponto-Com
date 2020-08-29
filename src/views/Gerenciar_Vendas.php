@@ -39,7 +39,7 @@
                         $Usuario->Nome<br>
                         R$$Venda->Valor_Total<br>
                         R$$Venda->Valor_Pago<br>";
-                if ($Venda->Concluida)
+                if ($Venda->Concluido)
                     $html = $html . "Concluída";
                 else
                 $html = $html . "Não concluída";
