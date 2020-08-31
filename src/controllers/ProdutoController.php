@@ -30,5 +30,15 @@
             $res = !!$this->persistance->deleteProduto($idProduto);
             return $res;
         }
+
+        function editarProduto($idProduto, $Nome, $Descricao, $Preco, $Quantidade, $addedBy) {
+            $produto = $this->getOneProduto($idProduto);
+            $produto->Nome = $Nome;
+            $produto->Descricao = $Descricao;
+            $produto->Preco = $Preco;
+            $produto->Quantidade = $Quantidade;
+            $res = !!$this->persistance->updateProduto($idProduto, $produto);
+            return $res;
+        }
     }
 ?>

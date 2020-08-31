@@ -157,12 +157,7 @@
                                                     Gerenciar Produtos
                                                 </a>
                                             </li>
-                                            <li class=\"nav-item\">
-                                                <a class=\"nav-link pt-3 pb-3\" href=\"./Cadastrar_Venda.php\">
-                                                <span data-feather=\"plus-circle\"></span>
-                                                Cadastrar Venda
-                                                </a>
-                                            </li>
+                                            
                                             <li class=\"nav-item\">
                                                 <a class=\"nav-link pt-3 pb-3\" href=\"./Gerenciar_Vendas.php\">
                                                 <span data-feather=\"edit\"></span>
@@ -172,7 +167,7 @@
                                             <li class=\"nav-item\">
                                                 <a class=\"nav-link active pt-3 pb-3\" href=\"./Gerenciar_Usuarios.php\">
                                                 <span data-feather=\"coffee\"></span>
-                                                Gerenciar Usuarios
+                                                Administrar Usuarios
                                                 </a>
                                             </li>
                                         </ul>

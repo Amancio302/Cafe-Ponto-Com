@@ -97,7 +97,7 @@
                                             <input name=\"confirmarSenhaCadastro\" class=\"form-control\" placeholder=\"Confirmar Senha\" type=\"password\">
                                         </div> <!-- form-group// -->                                                                                                           
                                         <button class=\"btn btn-lg btn-cafe btn-block\" type=\"submit\">Entrar</button>
-                                        <p class=\"text-center mt-1\" style=\"color:white;\">Já tem uma conta? <a href=\"\">Log In</a> </p> 
+                                        <p class=\"text-center mt-1\" style=\"color:white;\">Já tem uma conta? <a href=\"./Login.php\">Log In</a> </p> 
                                     </form>
                                 </div>
                              </div> 
